@@ -1,0 +1,4 @@
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Requirement already satisfied: omegaconf in c:\users\chwwf\appdata\local\programs\python\python310\lib\site-packages (2.3.0)
+Requirement already satisfied: antlr4-python3-runtime==4.9.* in c:\users\chwwf\appdata\local\programs\python\python310\lib\site-packages (from omegaconf) (4.9.3)
+Requirement already satisfied: PyYAML>=5.1.0 in c:\users\chwwf\appdata\local\programs\python\python310\lib\site-packages (from omegaconf) (6.0.2)

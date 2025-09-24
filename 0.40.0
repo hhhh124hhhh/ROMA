@@ -1,0 +1,10 @@
+Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple
+Collecting eventlet
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/6e/b4/981362608131dc4ee8de9fdca6a38ef19e3da66ab6a13937bd158882db91/eventlet-0.40.3-py3-none-any.whl (364 kB)
+Collecting dnspython>=1.15.0 (from eventlet)
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/ba/5a/18ad964b0086c6e62e2e7500f7edc89e3faa45033c71c1893d34eed2b2de/dnspython-2.8.0-py3-none-any.whl (331 kB)
+Collecting greenlet>=1.0 (from eventlet)
+  Downloading https://pypi.tuna.tsinghua.edu.cn/packages/d6/6f/b60b0291d9623c496638c582297ead61f43c4b72eef5e9c926ef4565ec13/greenlet-3.2.4-cp310-cp310-win_amd64.whl (298 kB)
+Installing collected packages: greenlet, dnspython, eventlet
+
+Successfully installed dnspython-2.8.0 eventlet-0.40.3 greenlet-3.2.4

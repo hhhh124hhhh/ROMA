@@ -114,6 +114,7 @@ class AgentFactory:
         self._model_providers = {
             "litellm": LiteLLM,
             "openai": OpenAIChat,
+            "zhipuai": LiteLLM,  # ZhipuAI uses LiteLLM with custom endpoints
         }
                 
         # Log available toolkits for visibility
@@ -255,6 +256,15 @@ class AgentFactory:
                 
             elif provider == "openai":
                 logger.info(f"🔧 Creating OpenAI model: {model_id}")
+                return model_class(**model_kwargs)
+            
+            elif provider == "zhipuai":
+                # ZhipuAI models use LiteLLM with custom configuration
+                logger.info(f"🔧 Creating ZhipuAI model via LiteLLM: {model_id}")
+                # Set custom base URL for ZhipuAI if using direct API
+                if not model_id.startswith("openrouter/"):
+                    # Direct ZhipuAI API call (if LiteLLM supports it in future)
+                    model_kwargs["api_base"] = "https://open.bigmodel.cn/api/paas/v4/"
                 return model_class(**model_kwargs)
                 
             elif provider in ["fireworks", "fireworks_ai"]:

@@ -1,0 +1,33 @@
+agents:
+- adapter_class: PlannerAdapter
+  description: 使用GLM-4.5的规划代理
+  enabled: true
+  model:
+    max_tokens: 2000
+    model_id: glm-4.5
+    provider: zhipuai
+    temperature: 0.6
+  name: glm45-planner
+  prompt_source: prompts.planner_prompts.SYSTEM_MESSAGE
+  response_model: PlanOutput
+  toolkits: []
+  tools: []
+  type: planner
+- adapter_class: ExecutorAdapter
+  description: 使用GLM-4.5的执行代理
+  enabled: true
+  model:
+    max_tokens: 1500
+    model_id: zhipuai/glm-4.5
+    provider: litellm
+    temperature: 0.7
+  name: glm45-executor
+  prompt_source: prompts.executor_prompts.SYSTEM_MESSAGE
+  toolkits: []
+  tools:
+  - web_search
+  type: executor
+metadata:
+  api_version: v4
+  created_for: GLM-4.5集成测试
+  model_version: glm-4.5

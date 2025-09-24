@@ -1,0 +1,192 @@
+# 智谱AI GLM-4.5 优化配置
+# 专门配置GLM-4.5模型的高性能代理配置
+
+agents:
+  # =============================================================================
+  # GLM-4.5 主规划器 - 负责任务分解和规划
+  # =============================================================================
+  
+  - name: "GLM45MasterPlanner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "GLM-4.5驱动的主规划器，具备强大的中文理解和逻辑推理能力"
+    model:
+      provider: "zhipuai"  # 直接使用智谱AI
+      model_id: "glm-4.5"
+      temperature: 0.6     # 平衡创造性和准确性
+      max_tokens: 4000
+      top_p: 0.9
+      frequency_penalty: 0.1
+      presence_penalty: 0.1
+    prompt_source: "prompts.planner_prompts.ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "SEARCH"
+        - action_verb: "plan"
+          task_type: "WRITE"
+        - action_verb: "plan"
+          task_type: "ANALYZE"
+      named_keys: ["GLM45MasterPlanner", "master_planner", "glm45_planner"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 智能执行器 - 多功能执行
+  # =============================================================================
+  
+  - name: "GLM45SmartExecutor"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "GLM-4.5驱动的智能执行器，支持推理、分析、写作等多种任务"
+    model:
+      provider: "zhipuai"
+      model_id: "glm-4.5"
+      temperature: 0.7
+      max_tokens: 3500
+      top_p: 0.95
+    prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: false
+      - "ReasoningTools"
+      - "web_search"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "SEARCH"
+        - action_verb: "execute"  
+          task_type: "THINK"
+        - action_verb: "execute"
+          task_type: "ANALYZE"
+      named_keys: ["GLM45SmartExecutor", "smart_executor", "glm45_executor"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 专业写作器 - 高质量内容生成
+  # =============================================================================
+  
+  - name: "GLM45ProWriter"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "GLM-4.5专业写作器，专注于高质量中文内容创作和报告生成"
+    model:
+      provider: "zhipuai"
+      model_id: "glm-4.5"
+      temperature: 0.8     # 创作任务使用较高温度
+      max_tokens: 5000     # 长文本生成
+      top_p: 0.95
+      frequency_penalty: 0.2
+      presence_penalty: 0.1
+    prompt_source: "prompts.executor_prompts.BASIC_REPORT_WRITER_SYSTEM_MESSAGE"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "WRITE"
+      named_keys: ["GLM45ProWriter", "pro_writer", "glm45_writer"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 结果聚合器 - 信息整合专家
+  # =============================================================================
+  
+  - name: "GLM45MasterAggregator"
+    type: "aggregator"
+    adapter_class: "AggregatorAdapter"
+    description: "GLM-4.5结果聚合器，擅长整合多源信息并生成连贯的最终报告"
+    model:
+      provider: "zhipuai"
+      model_id: "glm-4.5"
+      temperature: 0.5     # 聚合任务需要一致性
+      max_tokens: 6000     # 支持长篇综合报告
+      top_p: 0.9
+    prompt_source: "prompts.aggregator_prompts.AGGREGATOR_SYSTEM_MESSAGE"
+    registration:
+      named_keys: ["GLM45MasterAggregator", "master_aggregator", "glm45_aggregator"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 任务原子化器 - 复杂任务分解
+  # =============================================================================
+  
+  - name: "GLM45AtomizerMaster"
+    type: "atomizer"
+    adapter_class: "AtomizerAdapter"
+    description: "GLM-4.5任务原子化器，负责将复杂任务分解为可执行的原子任务"
+    model:
+      provider: "zhipuai"
+      model_id: "glm-4.5"
+      temperature: 0.4     # 分解任务需要逻辑性
+      max_tokens: 3000
+      top_p: 0.85
+    prompt_source: "prompts.atomizer_prompts.ATOMIZER_SYSTEM_MESSAGE"
+    response_model: "AtomizerOutput"
+    registration:
+      named_keys: ["GLM45AtomizerMaster", "atomizer_master", "glm45_atomizer"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 计划修正器 - 动态计划调整
+  # =============================================================================
+  
+  - name: "GLM45PlanModifier"
+    type: "plan_modifier"
+    adapter_class: "PlanModifierAdapter"
+    description: "GLM-4.5计划修正器，根据执行结果动态调整和优化执行计划"
+    model:
+      provider: "zhipuai"
+      model_id: "glm-4.5"
+      temperature: 0.5
+      max_tokens: 3000
+      top_p: 0.9
+    prompt_source: "prompts.plan_modifier_prompts.PLAN_MODIFIER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    registration:
+      named_keys: ["GLM45PlanModifier", "plan_modifier", "glm45_modifier"]
+    enabled: true
+
+# =============================================================================
+# 元数据信息
+# =============================================================================
+
+metadata:
+  name: "GLM-4.5 Professional Agent Suite"
+  description: "基于智谱AI GLM-4.5模型的专业代理套件"
+  version: "1.0.0"
+  author: "SentientResearchAgent"
+  created_date: "2024-12-24"
+  model_info:
+    primary_model: "glm-4.5"
+    provider: "zhipuai"
+    api_version: "v4"
+    features:
+      - "中文理解优化"
+      - "长上下文支持"
+      - "多任务推理"
+      - "专业写作"
+      - "逻辑分析"
+  
+  # 环境变量要求
+  required_env_vars:
+    - "ZHIPUAI_API_KEY"  # 智谱AI API密钥
+  
+  # 推荐配置
+  recommended_settings:
+    search_tasks:
+      temperature: 0.6
+      max_tokens: 3000
+    reasoning_tasks:
+      temperature: 0.4
+      max_tokens: 4000
+    creative_tasks:
+      temperature: 0.8
+      max_tokens: 5000
+    
+  # 性能优化建议
+  performance_tips:
+    - "对于推理密集型任务，降低temperature到0.3-0.5"
+    - "对于创作型任务，提高temperature到0.7-0.9"
+    - "使用frequency_penalty和presence_penalty避免重复"
+    - "根据任务复杂度调整max_tokens"
+    - "利用GLM-4.5的长上下文能力处理复杂文档"

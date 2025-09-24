@@ -1,0 +1,21 @@
+# 智谱AI配置示例
+# 添加到你的agents.yaml文件中
+
+agents:
+  - name: "ZhipuGLM4Planner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "智谱GLM-4规划器"
+    model:
+      provider: "litellm"
+      model_id: "openrouter/z-ai/glm-4-32b"
+      temperature: 0.7
+      max_tokens: 4000
+    prompt_source: "prompts.planner_prompts.PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "WRITE"
+      named_keys: ["ZhipuGLM4Planner"]
+    enabled: true

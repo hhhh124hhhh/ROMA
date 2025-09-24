@@ -1,0 +1,135 @@
+# 智谱AI GLM-4 模型配置示例
+# 本文件展示如何在agents.yaml中配置智谱AI模型
+
+agents:
+  # =============================================================================
+  # 智谱AI 规划器示例 - 通过OpenRouter
+  # =============================================================================
+  
+  - name: "ZhipuGLM4Planner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "使用智谱GLM-4模型的智能规划器，专注于中文理解和推理"
+    model:
+      provider: "litellm"
+      model_id: "openrouter/z-ai/glm-4-32b"  # 通过OpenRouter访问GLM-4
+      temperature: 0.7
+      max_tokens: 4000
+      top_p: 0.9
+    prompt_source: "prompts.planner_prompts.ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "SEARCH"
+        - action_verb: "plan"
+          task_type: "WRITE"
+      named_keys: ["ZhipuGLM4Planner", "zhipu_planner"]
+    enabled: true
+
+  # =============================================================================
+  # 智谱AI 执行器示例 - 推理任务
+  # =============================================================================
+  
+  - name: "ZhipuGLM4Reasoner"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "使用智谱GLM-4的推理执行器，适合复杂分析任务"
+    model:
+      provider: "litellm"
+      model_id: "openrouter/z-ai/glm-4-32b"
+      temperature: 0.3  # 推理任务使用较低温度
+      max_tokens: 3000
+    prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: false
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "THINK"
+      named_keys: ["ZhipuGLM4Reasoner", "zhipu_reasoner"]
+    enabled: true
+
+  # =============================================================================
+  # 智谱AI 写作器示例 - 文档生成
+  # =============================================================================
+  
+  - name: "ZhipuGLM4Writer"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "使用智谱GLM-4的写作执行器，专注于高质量中文内容生成"
+    model:
+      provider: "litellm"
+      model_id: "openrouter/z-ai/glm-4-32b"
+      temperature: 0.8  # 创作任务使用较高温度
+      max_tokens: 4000
+      top_p: 0.95
+    prompt_source: "prompts.executor_prompts.BASIC_REPORT_WRITER_SYSTEM_MESSAGE"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "WRITE"
+      named_keys: ["ZhipuGLM4Writer", "zhipu_writer"]
+    enabled: true
+
+  # =============================================================================
+  # 智谱AI 聚合器示例 - 信息整合
+  # =============================================================================
+  
+  - name: "ZhipuGLM4Aggregator"
+    type: "aggregator"
+    adapter_class: "AggregatorAdapter"
+    description: "使用智谱GLM-4的聚合器，负责整合多个任务的结果"
+    model:
+      provider: "litellm"
+      model_id: "openrouter/z-ai/glm-4-32b"
+      temperature: 0.5
+      max_tokens: 5000
+    prompt_source: "prompts.aggregator_prompts.AGGREGATOR_SYSTEM_MESSAGE"
+    registration:
+      named_keys: ["ZhipuGLM4Aggregator", "zhipu_aggregator"]
+    enabled: true
+
+  # =============================================================================
+  # 实验性：直接智谱AI API配置（需要后续支持）
+  # =============================================================================
+  
+  - name: "DirectZhipuGLM4"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "直接使用智谱AI API的执行器（实验性功能）"
+    model:
+      provider: "zhipuai"  # 使用专门的zhipuai provider
+      model_id: "glm-4"
+      temperature: 0.7
+      max_tokens: 4000
+    prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
+    registration:
+      named_keys: ["DirectZhipuGLM4"]
+    enabled: false  # 默认禁用，等待实现
+
+# =============================================================================
+# 配置说明
+# =============================================================================
+
+# 环境变量要求：
+# - OPENROUTER_API_KEY: OpenRouter API密钥（用于openrouter/模型）
+# - ZHIPUAI_API_KEY: 智谱AI API密钥（用于直接API调用）
+
+# 推荐的智谱AI模型参数：
+# - temperature: 0.3-0.5 (推理任务), 0.7-0.9 (创作任务)
+# - max_tokens: 2000-5000 (根据任务复杂度)
+# - top_p: 0.8-0.95 (控制输出多样性)
+
+# OpenRouter中可用的智谱AI模型：
+# - openrouter/z-ai/glm-4-32b: GLM-4标准版本
+# - 其他版本可能陆续支持
+
+# 直接API可用的模型（当支持时）：
+# - glm-4: 标准GLM-4
+# - glm-4-air: 轻量版
+# - glm-4-flash: 快速版
+# - glm-4-plus: 增强版

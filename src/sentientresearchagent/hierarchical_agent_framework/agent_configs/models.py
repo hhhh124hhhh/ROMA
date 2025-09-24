@@ -25,7 +25,7 @@ __all__ = [
 ]
 
 # Model provider types
-ModelProviderType = Literal["litellm", "openai", "fireworks", "fireworks_ai", "google", "gemini"]
+ModelProviderType = Literal["litellm", "openai", "fireworks", "fireworks_ai", "google", "gemini", "zhipuai"]
 
 # Agent types
 AgentType = Literal["planner", "executor", "aggregator", "atomizer", "plan_modifier", "custom_search"]
@@ -474,7 +474,7 @@ class ToolkitConfig(BaseModel):
     )
 
     @classmethod
-    def get_toolkit_params_class(cls, name: str) -> Type[BaseModel]:
+    def get_toolkit_params_class(cls, name: str) -> Optional[Type[BaseModel]]:
         """Get the appropriate parameter class for a toolkit name."""
         toolkit_registry = {
             "BinanceToolkit": BinanceToolkitParams,
@@ -498,7 +498,7 @@ class ToolkitConfig(BaseModel):
             self.params = validated_params.model_dump(exclude_none=True)
             
             # Validate available tools using the class method
-            if available_tools:
+            if available_tools and hasattr(param_class, 'get_valid_tools'):
                 valid_tools = param_class.get_valid_tools()
                 invalid_tools = [tool for tool in available_tools if tool not in valid_tools]
                 if invalid_tools:
