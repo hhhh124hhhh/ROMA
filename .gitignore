@@ -58,6 +58,9 @@ venv/
 .claude-sessions/
 .
 
+# CloudBase config
+cloudbaserc.json
+
 # PDM
 .pdm.toml
 .pdm-python
