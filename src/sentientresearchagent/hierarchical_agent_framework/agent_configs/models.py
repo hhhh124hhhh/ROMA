@@ -108,6 +108,11 @@ class ModelConfig(BaseModel):
                     raise ValueError(
                         f"Fireworks AI model '{model_id}' requires FIREWORKS_AI_API_KEY environment variable"
                     )
+            elif model_id.startswith("zhipuai/") or model_id.startswith("glm-"):
+                if not os.getenv("ZHIPUAI_API_KEY"):
+                    raise ValueError(
+                        f"ZhipuAI model '{model_id}' requires ZHIPUAI_API_KEY environment variable"
+                    )
         elif provider == "openai":
             if not os.getenv("OPENAI_API_KEY"):
                 raise ValueError("OpenAI provider requires OPENAI_API_KEY environment variable")
