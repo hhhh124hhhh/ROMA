@@ -463,11 +463,15 @@ Ensure your output is a valid JSON conforming to the PlanOutput schema, containi
             # Get stage name in local scope to avoid closure issues
             local_stage_name = self._get_stage_name(node)
             
-            if not hasattr(self.agno_agent, 'arun'):
+            # Check for available async methods (arun or aresponse)
+            has_arun = hasattr(self.agno_agent, 'arun')
+            has_aresponse = hasattr(self.agno_agent, 'aresponse')
+            
+            if not has_arun and not has_aresponse:
                 raise AgentExecutionError(
                     agent_name=self.agent_name,
                     task_id=node.task_id,
-                    original_error=NotImplementedError(f"AgnoAgent for '{self.agent_name}' needs an async 'arun' method."),
+                    original_error=NotImplementedError(f"AgnoAgent for '{self.agent_name}' needs an async 'arun' or 'aresponse' method."),
                     attempt_number=1
                 )
 
@@ -476,7 +480,17 @@ Ensure your output is a valid JSON conforming to the PlanOutput schema, containi
                 llm_start_time = asyncio.get_event_loop().time()
                 logger.info(f"🚀 LLM CALL START: {self.agent_name} for node {node.task_id}")
                 
-                run_response_obj = await self.agno_agent.arun(user_message_string)
+                # Use arun if available, otherwise use aresponse
+                if has_arun:
+                    run_response_obj = await self.agno_agent.arun(user_message_string)
+                else:
+                    # For aresponse, we need to pass messages in the correct format
+                    messages = []
+                    if system_prompt:
+                        messages.append({"role": "system", "content": system_prompt})
+                    messages.append({"role": "user", "content": user_message_string})
+                    
+                    run_response_obj = await self.agno_agent.aresponse(messages=messages)
                 
                 llm_end_time = asyncio.get_event_loop().time()
                 llm_duration = llm_end_time - llm_start_time
