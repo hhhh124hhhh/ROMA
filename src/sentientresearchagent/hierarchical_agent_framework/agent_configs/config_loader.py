@@ -34,13 +34,35 @@ class AgentConfigLoader:
             config_dir = Path(__file__).parent
         
         self.config_dir = Path(config_dir)
-        self.agents_config_file = self.config_dir / "agents.yaml"
+        
+        # Check for custom agents config via environment variable
+        custom_agents_config = os.getenv("SENTIENT_AGENTS_CONFIG")
+        if custom_agents_config:
+            # If custom config is specified, look for it in project root first
+            project_root = Path.cwd()
+            custom_config_path = project_root / custom_agents_config
+            if custom_config_path.exists():
+                self.agents_config_file = custom_config_path
+                logger.info(f"Using custom agents config from environment: {custom_config_path}")
+            else:
+                # Fallback to config_dir
+                self.agents_config_file = self.config_dir / custom_agents_config
+                logger.info(f"Using custom agents config from config_dir: {self.agents_config_file}")
+        else:
+            # Default behavior
+            self.agents_config_file = self.config_dir / "agents.yaml"
         
         # Validate config directory exists
         if not self.config_dir.exists():
             raise FileNotFoundError(f"Config directory not found: {self.config_dir}")
         
         if not self.agents_config_file.exists():
+            # If custom config doesn't exist, provide helpful error message
+            if custom_agents_config:
+                project_root = Path.cwd()
+                logger.error(f"Custom agents config file not found: {self.agents_config_file}")
+                logger.error(f"Environment variable SENTIENT_AGENTS_CONFIG={custom_agents_config}")
+                logger.error(f"Searched in: {project_root / custom_agents_config} and {self.config_dir / custom_agents_config}")
             raise FileNotFoundError(f"Agents config file not found: {self.agents_config_file}")
         
         # Cache for validated configurations

@@ -49,7 +49,6 @@ def create_app(main_config: Optional[SentientConfig] = None) -> Flask:
     # cors_origins = main_config.web_server.cors_origins if main_config and main_config.web_server else ["http://localhost:3000", "http://127.0.0.1:3000"]
     # For now, keeping CORS static as it was.
     # Configure CORS for development - allow ngrok domains
-    import os
     cors_origins = [
         "http://localhost:3000", 
         "http://127.0.0.1:3000"
@@ -105,6 +104,24 @@ def register_routes(app: Flask, socketio: SocketIO, system_manager, project_serv
         project_service: ProjectService instance
         execution_service: ExecutionService instance
     """
+    # Add root route
+    @app.route('/')
+    def home():
+        """根路径，显示API信息页面"""
+        return {
+            "message": "SentientResearchAgent API Server",
+            "status": "running",
+            "model": "GLM-4.5",
+            "endpoints": {
+                "system_info": "/api/system-info",
+                "research": "/api/simple/research",
+                "analysis": "/api/simple/analysis",
+                "execute": "/api/simple/execute",
+                "docs": "/api/docs"
+            },
+            "description": "智谱AI GLM-4.5 驱动的研究代理系统"
+        }
+    
     # Register REST API routes
     from .api.system import create_system_routes
     from .api.projects import create_project_routes

@@ -1,0 +1,55 @@
+# GLM-4.5 专用Profile
+# 专为智谱AI GLM-4.5模型优化的代理配置档案
+
+profile:
+  name: "GLM45Professional"
+  description: "专为智谱AI GLM-4.5模型优化的专业代理配置"
+
+  # 根级规划器 - 使用GLM-4.5主规划器
+  root_planner_adapter_name: "GLM45MasterPlanner"
+  
+  # 根级聚合器 - 使用GLM-4.5聚合器
+  root_aggregator_adapter_name: "GLM45MasterAggregator"
+
+  # 任务类型到规划器的映射
+  planner_adapter_names:
+    SEARCH: "GLM45MasterPlanner"
+    WRITE: "GLM45MasterPlanner"
+    THINK: "GLM45MasterPlanner"
+
+  # 任务类型到执行器的映射
+  executor_adapter_names:
+    SEARCH: "GLM45SmartExecutor"
+    THINK: "GLM45SmartExecutor"
+    WRITE: "GLM45ProWriter"
+
+  # 任务类型到聚合器的映射
+  aggregator_adapter_names:
+    SEARCH: "GLM45MasterAggregator"
+    THINK: "GLM45MasterAggregator"
+    WRITE: "GLM45MasterAggregator"
+
+  # 其他功能代理
+  atomizer_adapter_name: "GLM45AtomizerMaster"
+  aggregator_adapter_name: "GLM45MasterAggregator"  # 备用聚合器
+  plan_modifier_adapter_name: "PlanModifier"  # 暂时使用默认的
+
+  # 默认代理配置
+  default_planner_adapter_name: "GLM45MasterPlanner"
+  default_executor_adapter_name: "GLM45SmartExecutor"
+  default_node_agent_name_prefix: "GLM45"
+
+metadata:
+  version: "1.0.0"
+  description: "专为智谱AI GLM-4.5模型优化，提供中文理解和逻辑推理能力"
+  use_case: "中文研究任务、分析、写作和问答"
+  model_info:
+    primary_model: "glm-4.5"
+    provider: "zhipuai"
+    language_optimization: "Chinese"
+  recommended_for:
+    - "中文内容研究"
+    - "文本分析和总结"
+    - "创意写作"
+    - "逻辑推理"
+    - "问答系统"

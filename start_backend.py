@@ -40,7 +40,7 @@ def main():
     # 设置使用简化配置
     os.environ["PYTHONPATH"] = str(project_root / "src")
     os.environ["SENTIENT_AGENTS_CONFIG"] = "agents_glm45_simple.yaml"
-    os.environ["SENTIENT_PROFILE"] = "GLM45Professional"
+    os.environ["SENTIENT_PROFILE"] = "glm45_professional"  # 使用GLM-4.5专用profile
     
     print("\n✨ 配置信息:")
     print("🤖 模型: 智谱AI GLM-4.5")
@@ -51,6 +51,9 @@ def main():
     print("按 Ctrl+C 停止服务\n")
     
     try:
+        # 设置环境变量以使用GLM-4.5配置
+        os.environ["SENTIENT_PROFILE"] = "glm45_professional"
+        
         # 启动服务器
         from sentientresearchagent.server.main import main as server_main
         server_main()

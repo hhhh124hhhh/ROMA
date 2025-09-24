@@ -250,12 +250,62 @@ class AgentFactory:
                     import litellm
                     litellm.drop_params = True  # Set globally for o3 models
                 
+                # Special handling for ZhipuAI models via LiteLLM
+                if model_id.startswith("zhipuai/") or "zhipuai" in model_id:
+                    logger.info(f"🔧 Creating LiteLLM model for ZhipuAI: {model_id}")
+                    # Configure LiteLLM for ZhipuAI support
+                    import litellm
+                    
+                    # Use direct model name without zhipuai/ prefix for LiteLLM
+                    if model_id.startswith("zhipuai/"):
+                        actual_model_id = model_id.replace("zhipuai/", "")
+                    else:
+                        actual_model_id = model_id
+                    
+                    # Set the direct model ID for LiteLLM
+                    model_kwargs["id"] = actual_model_id
+                    
+                    # Set custom base URL for ZhipuAI
+                    model_kwargs["api_base"] = "https://open.bigmodel.cn/api/paas/v4/"
+                    
+                    # Ensure API key is set
+                    if not model_kwargs.get("api_key"):
+                        api_key = os.getenv("ZHIPUAI_API_KEY")
+                        if api_key:
+                            model_kwargs["api_key"] = api_key
+                        else:
+                            logger.warning(f"No ZHIPUAI_API_KEY found for model {model_id}")
+                    
+                    logger.info(f"🔧 ZhipuAI model config: id={actual_model_id}, api_base={model_kwargs.get('api_base', '')[:50]}...")
+                
                 # Create LiteLLM instance - environment variables are already validated
                 logger.info(f"🔧 Creating LiteLLM model: {model_id}")
                 return model_class(**model_kwargs)
                 
             elif provider == "openai":
-                logger.info(f"🔧 Creating OpenAI model: {model_id}")
+                # Special handling for ZhipuAI GLM models using OpenAI compatibility mode
+                if model_id == "glm-4.5" or "glm-" in model_id:
+                    logger.info(f"🔧 Creating OpenAI-compatible ZhipuAI model: {model_id}")
+                    
+                    # Set ZhipuAI API base URL if specified in config
+                    api_base = getattr(validated_config, 'api_base', None)
+                    if api_base:
+                        model_kwargs["base_url"] = api_base
+                        logger.info(f"🔧 Using custom base URL for ZhipuAI: {api_base}")
+                    
+                    # Set API key for ZhipuAI
+                    if not model_kwargs.get("api_key"):
+                        api_key = os.getenv("ZHIPUAI_API_KEY")
+                        if api_key:
+                            model_kwargs["api_key"] = api_key
+                            logger.debug("✅ ZHIPUAI_API_KEY loaded from environment")
+                        else:
+                            logger.warning(f"No ZHIPUAI_API_KEY found for ZhipuAI model {model_id}")
+                    
+                    logger.info(f"🔧 ZhipuAI OpenAI-compatible config: id={model_id}, base_url={model_kwargs.get('base_url', '')}")
+                else:
+                    logger.info(f"🔧 Creating standard OpenAI model: {model_id}")
+                
                 return model_class(**model_kwargs)
             
             elif provider == "zhipuai":

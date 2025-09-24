@@ -111,6 +111,6 @@ experiment:
 environment: "research"
 
 # Default Agent Profile
-default_profile: "general_agent"
+default_profile: "glm45_professional"
 
 # NO AGENT CONFIGURATION HERE - Your agents are already perfectly configured!
