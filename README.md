@@ -2,10 +2,10 @@
 <div align="center">
     <img src="./assets/sentient-logo-new-M.png" alt="alt text" width="60%"/>
 </div>
-<h1>ROMA: Recursive Open Meta-Agents</h1>
+<h1>ROMA-Chinese: 递归开放元智能体 (中文增强版)</h1>
 
 <p align="center">
-  <strong>Building hierarchical high-performance multi-agent systems made easy! (Beta) </strong>
+  <strong>专为中文用户打造的分层高性能多智能体系统！包含Windows原生支持和智谱GLM-4.5集成 (Beta)</strong>
 </p>
 
 <a href="https://trendshift.io/repositories/14848" target="_blank"><img src="https://trendshift.io/api/badge/repositories/14848" alt="sentient-agi%2FROMA | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
@@ -59,21 +59,28 @@
 - **[🗺️ 发展路线](docs/ROADMAP.md)** - 查看ROMA的未来规划
 - **[🌟 原开源项目](https://github.com/sentient-agi/ROMA)** - 查看原始项目和更多资源
 
-## 🎯 什么是ROMA？
+## 🎯 什么是ROMA-Chinese？
 
-> **🌟 特别增强版本**: 本版本在原开源项目基础上，专门为中文用户增加了**Windows原生部署脚本**和**智谱GLM-4.5原生支持**，让国内开发者零门槛体验先进的递归智能体技术。
+> **🌟 ROMA-Chinese特别增强版**: 本项目基于原开源ROMA框架，专门为中文用户增加了**Windows原生部署脚本**和**智谱GLM-4.5原生支持**，让国内开发者零门槛体验先进的递归智能体技术。
 
 <div align="center">
     <img src="./assets/roma_run.gif" alt="alt text" width="80%"/>
 </div>
 <br>
 
-**ROMA** is a **meta-agent framework** that uses recursive hierarchical structures to solve complex problems. By breaking down tasks into parallelizable components, ROMA enables agents to tackle sophisticated reasoning challenges while maintaining transparency that makes context-engineering and iteration straightforward. The framework offers **parallel problem solving** where agents work simultaneously on different parts of complex tasks, **transparent development** with a clear structure for easy debugging, and **proven performance** demonstrated through our search agent's strong benchmark results. We've shown the framework's effectiveness, but this is just the beginning. As an **open-source and extensible** platform, ROMA is designed for community-driven development, allowing you to build and customize agents for your specific needs while benefiting from the collective improvements of the community.
+**ROMA-Chinese** 是一个**元智能体框架的中文增强版本**，使用递归分层结构来解决复杂问题。通过将任务分解为可并行化的组件，ROMA-Chinese使智能体能够处理复杂的推理挑战，同时保持透明度，使上下文工程和迭代变得简单明了。
 
-## 🏗️ How It Works
+**🇨🇳 中文增强特性**:
+- **并行问题解决** - 智能体同时处理复杂任务的不同部分
+- **透明开发** - 清晰的结构便于调试，中文界面可视化监控
+- **Windows原生支持** - 一键部署脚本，无需复杂配置
+- **智谱GLM-4.5集成** - 原生中文大模型支持，零配置接入
 
+作为**开源且可扩展**的平台，ROMA-Chinese专为中文社区驱动开发而设计，让您可以根据特定需求构建和定制智能体，同时受益于中文社区的集体改进。
 
-**ROMA** framework processes tasks through a recursive **plan–execute loop**:
+## 🔍 它是如何工作的？
+
+**ROMA-Chinese** 框架通过递归的**规划-执行循环**来处理任务：
 
 ```python
 def solve(task):
@@ -89,10 +96,10 @@ def solve(task):
 # Entry point:
 answer = solve(initial_request)
 ```
-1. **Atomizer** – Decides whether a request is **atomic** (directly executable) or requires **planning**.  
-2. **Planner** – If planning is needed, the task is broken into smaller **subtasks**. Each subtask is fed back into the **Atomizer**, making the process recursive.  
-3. **Executors** – Handle atomic tasks. Executors can be **LLMs, APIs, or even other agents** — as long as they implement an `agent.execute()` interface.  
-4. **Aggregator** – Collects and integrates results from subtasks. Importantly, the Aggregator produces the **answer to the original parent task**, not just raw child outputs.  
+1. **原子化器** – 决定请求是否为**原子级**（可直接执行）或需要**规划**。  
+2. **规划器** – 如果需要规划，任务被分解为更小的**子任务**。每个子任务都被反馈到**原子化器**，使过程递归。  
+3. **执行器** – 处理原子任务。执行器可以是**大语言模型、API或甚至其他智能体**——只要它们实现了`agent.execute()`接口。  
+4. **聚合器** – 收集并整合子任务的结果。重要的是，聚合器产出的是**原始父任务的答案**，而不仅仅是原始子输出。  
 
 
 
@@ -134,13 +141,20 @@ flowchart TB
 
 </details><br>
 
+#### 📊 信息流动  
+- **自上而下**：任务递归地分解为子任务。  
+- **自下而上**：子任务结果向上聚合为父任务的解决方案。  
+- **从左到右**：如果子任务依赖于前一个任务的输出，它会等待该子任务完成后再执行。  
+
+这种结构使系统具有灵活性、递归性和依赖感知能力——能够将复杂问题分解为更小的步骤，同时确保结果得到连贯整合。
+
 ### 🚀 30秒快速开始
 
 #### 🇨🇳 **智谱GLM-4.5用户专享** (推荐中文用户)
 ```cmd
-# 1. 克隆项目
-git clone https://github.com/sentient-agi/ROMA.git
-cd ROMA
+# 1. 克隆中文增强版项目
+git clone https://github.com/hhhh124hhhh/ROMA-Chinese.git
+cd ROMA-Chinese
 
 # 2. 配置智谱AI密钥
 echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
@@ -154,8 +168,8 @@ start_fullstack.bat
 
 #### 🪟 **Windows原生部署** (零配置体验)
 ```cmd
-git clone https://github.com/sentient-agi/ROMA.git
-cd ROMA
+git clone https://github.com/hhhh124hhhh/ROMA-Chinese.git
+cd ROMA-Chinese
 
 # 一键部署 - Docker方式（推荐）
 setup.bat --docker
@@ -169,8 +183,8 @@ start_fullstack.bat
 
 #### 🐧 **Linux/macOS传统方式**
 ```bash
-git clone https://github.com/sentient-agi/ROMA.git
-cd ROMA
+git clone https://github.com/hhhh124hhhh/ROMA-Chinese.git
+cd ROMA-Chinese
 
 # 自动化安装
 ./setup.sh
@@ -542,29 +556,24 @@ setup.bat --glm45                    # 智谱AI专用部署
 
 ## 📚 引用
 
-如果您在研究中使用了ROMA仓库，请引用：
+如果您在研究中使用了ROMA-Chinese仓库，请引用：
 
 ```bibtex
 @software{al_zubi_2025_17052592,
   author       = {Al-Zubi, Salah and
                   Nama, Baran and
                   Kaz, Arda and
-                  Oh, Sewoong},
-  title        = {SentientResearchAgent: A Hierarchical AI Agent
-                   Framework for Research and Analysis
+                  Oh, Sewoong and
+                  ROMA-Chinese Contributors},
+  title        = {ROMA-Chinese: 递归开放元智能体
+                   中文增强版 - Windows原生支持和智谱GLM-4.5集成
                   },
   month        = sep,
   year         = 2025,
-  publisher    = {Zenodo},
-  version      = {ROMA},
-  doi          = {10.5281/zenodo.17052592},
-  url          = {https://doi.org/10.5281/zenodo.17052592},
-  swhid        = {swh:1:dir:69cd1552103e0333dd0c39fc4f53cb03196017ce
-                   ;origin=https://doi.org/10.5281/zenodo.17052591;vi
-                   sit=swh:1:snp:f50bf99634f9876adb80c027361aec9dff97
-                   3433;anchor=swh:1:rel:afa7caa843ce1279f5b4b29b5d3d
-                   5e3fe85edc95;path=salzubi401-ROMA-b31c382
-                  },
+  publisher    = {GitHub},
+  version      = {ROMA-Chinese-v1.0},
+  url          = {https://github.com/hhhh124hhhh/ROMA-Chinese},
+  note         = {基于原始ROMA框架的中文增强版本，新增了Windows原生部署和智谱GLM-4.5集成}
 }
 ```
 
@@ -572,7 +581,9 @@ setup.bat --glm45                    # 智谱AI专用部署
 
 <div align="center">
 
-[![星标历史图表](https://api.star-history.com/svg?repos=sentient-agi/roma&type=Date)](https://www.star-history.com/#sentient-agi/roma&Date)
+[![星标历史图表](https://api.star-history.com/svg?repos=hhhh124hhhh/ROMA-Chinese&type=Date)](https://www.star-history.com/#hhhh124hhhh/ROMA-Chinese&Date)
+
+*基于原始ROMA项目的中文增强版本，专为中文用户优化*
 
 </div>
 

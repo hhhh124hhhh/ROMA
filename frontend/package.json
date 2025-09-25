@@ -1,7 +1,8 @@
 {
-  "name": "sentient-research-agent-frontend",
+  "name": "roma-chinese-frontend",
+  "description": "ROMA-Chinese 中文增强版前端 - Windows原生支持和智谱GLM-4.5集成",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

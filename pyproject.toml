@@ -1,8 +1,9 @@
 [project]
-name = "SentientResearchAgent"
-version = "0.1.0"
-description = "Default template for PDM package"
+name = "ROMA-Chinese"
+version = "1.0.0"
+description = "ROMA-Chinese: 递归开放元智能体中文增强版 - 专为中文用户优化，包含Windows原生支持和智谱GLM-4.5集成"
 authors = [
+    {name = "ROMA-Chinese Contributors", email = "contact@roma-chinese.dev"},
     {name = "salzubi401", email = "salaheddin@sentient.xyz"},
 ]
 dependencies = [
