@@ -39,12 +39,12 @@ def main():
     
     # 设置增强配置
     os.environ["PYTHONPATH"] = str(project_root / "src")
-    os.environ["SENTIENT_AGENTS_CONFIG"] = "agents_glm45_simple.yaml"
+    os.environ["SENTIENT_AGENTS_CONFIG"] = "agents_glm45_enhanced.yaml"
     os.environ["SENTIENT_PROFILE"] = "glm45_professional"
     
     print("\n✨ 增强配置信息:")
     print("🤖 模型: 智谱AI GLM-4.5")
-    print("📋 配置: agents_glm45_simple.yaml (增强递归版)")
+    print("📋 配置: agents_glm45_enhanced.yaml (完整多任务版，启用E2B沙箱)")
     print("🌐 服务: http://localhost:5000")
     print("⚡ 特点: 深度递归执行，多层智能分解")
     print("🔄 递归层数: 支持最多1000执行步骤")

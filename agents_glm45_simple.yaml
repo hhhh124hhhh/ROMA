@@ -17,7 +17,7 @@ agents:
       temperature: 0.3  # Lower temperature for more focused planning
       max_tokens: 5000  # Increased for detailed planning
       top_p: 0.85
-    prompt_source: "prompts.planner_prompts.GLM45_ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE"
+    prompt_source: "prompts.planner_prompts.PLANNER_SYSTEM_MESSAGE"
     response_model: "PlanOutput"
     tools: []  # 不使用外部工具包
     registration:
@@ -28,6 +28,8 @@ agents:
           task_type: "WRITE"
         - action_verb: "plan"
           task_type: "THINK"
+        - action_verb: "plan"
+          task_type: "ANALYZE"
       named_keys: ["GLM45MasterPlanner", "master_planner", "glm45_planner"]
     enabled: true
 
@@ -48,7 +50,12 @@ agents:
       top_p: 0.95
     prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
     response_model: null  # 执行器不需要结构化输出
-    tools: []  # 移除web_search工具，避免导入错误
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true  # 启用E2B沙箱执行
+      - "ReasoningTools"
+      - "web_search"  # 启用网络搜索
     registration:
       action_keys:
         - action_verb: "execute"
@@ -77,7 +84,11 @@ agents:
       top_p: 0.95
     prompt_source: "prompts.executor_prompts.BASIC_REPORT_WRITER_SYSTEM_MESSAGE"
     response_model: null  # 写作器不需要结构化输出
-    tools: []  # 纯写作，不需要外部工具
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true  # 启用E2B沙箱执行
+      - "ReasoningTools"  # 推理工具
     registration:
       action_keys:
         - action_verb: "execute"
@@ -102,7 +113,7 @@ agents:
       top_p: 0.9
     prompt_source: "prompts.aggregator_prompts.DEFAULT_AGGREGATOR_SYSTEM_MESSAGE"
     response_model: null  # 聚合器不需要结构化输出
-    tools: []  # 聚合不需要外部工具
+    tools: []  # 聚合不需要工具，仅整合信息
     registration:
       action_keys:
         - action_verb: "aggregate"
@@ -141,8 +152,8 @@ agents:
 # =============================================================================
 
 metadata:
-  name: "GLM-4.5 Core Agent Suite (Simplified)"
-  description: "简化版GLM-4.5代理套件，专注核心功能，无外部API依赖"
+  name: "GLM-4.5 Enhanced Agent Suite (E2B-Enabled)"
+  description: "增强版GLM-4.5代理套件，启用E2B沙箱和核心工具，无金融工具包依赖"
   version: "1.0.1"
   author: "SentientResearchAgent"
   created_date: "2024-12-24"
@@ -161,16 +172,17 @@ metadata:
   required_env_vars:
     - "ZHIPUAI_API_KEY"  # 仅需要智谱AI密钥
   
-  # 移除的可选功能
+  # 移除的可选功能（仅限金融工具包）
   removed_features:
-    - "E2B代码执行沙箱"
     - "加密货币数据工具包"
     - "区块链分析工具"
     - "DeFi数据工具"
   
-  # 保留的核心功能
+  # 保留并增强的核心功能
   core_features:
-    - "网络搜索"
+    - "E2B代码执行沙箱"  # 已启用
+    - "网络搜索"  # 已启用
+    - "推理工具"  # 已启用
     - "内容生成"
     - "逻辑推理"
     - "任务规划"

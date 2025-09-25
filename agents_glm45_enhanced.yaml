@@ -1,0 +1,284 @@
+# GLM-4.5 增强多任务配置
+# 专门设计用于支持复杂的多层级、多类型任务工作流
+
+agents:
+  # =============================================================================
+  # GLM-4.5 通用主规划器 - 支持复杂任务分解
+  # =============================================================================
+  
+  - name: "GLM45MasterPlanner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "GLM-4.5驱动的通用主规划器，支持复杂的多层级任务分解"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.4  # 较低温度确保逻辑性
+      max_tokens: 6000  # 支持复杂规划
+      top_p: 0.9
+    prompt_source: "prompts.planner_prompts.PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    tools: []
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "SEARCH"
+        - action_verb: "plan"
+          task_type: "WRITE"
+        - action_verb: "plan"
+          task_type: "THINK"
+        - action_verb: "plan"
+          task_type: "THINK"
+        - action_verb: "plan"
+          task_type: "CODE_INTERPRET"
+      named_keys: ["GLM45MasterPlanner", "master_planner", "glm45_planner"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 深度研究规划器 - 用于复杂研究任务
+  # =============================================================================
+  
+  - name: "GLM45DeepResearchPlanner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "GLM-4.5深度研究规划器，专门用于复杂的研究和分析任务"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.3
+      max_tokens: 7000
+      top_p: 0.85
+    prompt_source: "prompts.planner_prompts.DEEP_RESEARCH_PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    tools: []
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "SEARCH"
+          priority: 1  # 高优先级用于研究任务
+        - action_verb: "plan"
+          task_type: "THINK"
+          priority: 1
+        - action_verb: "plan"
+          task_type: "WRITE"
+          priority: 1
+      named_keys: ["GLM45DeepResearchPlanner", "deep_research_planner", "research_planner"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 智能执行器 - 多功能执行
+  # =============================================================================
+  
+  - name: "GLM45SmartExecutor"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "GLM-4.5驱动的智能执行器，支持推理、分析、写作等多种任务"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.7
+      max_tokens: 4000
+      top_p: 0.95
+    prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true  # 启用E2B沙箱执行
+      - "ReasoningTools"
+      - "web_search"  # 启用网络搜索
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "SEARCH"
+        - action_verb: "execute"  
+          task_type: "THINK"
+        - action_verb: "execute"
+          task_type: "WRITE"
+        - action_verb: "execute"
+          task_type: "THINK"
+        - action_verb: "execute"
+          task_type: "CODE_INTERPRET"
+      named_keys: ["GLM45SmartExecutor", "smart_executor", "glm45_executor"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 专业写作器 - 高质量内容生成
+  # =============================================================================
+  
+  - name: "GLM45ProWriter"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "GLM-4.5专业写作器，专注于高质量中文内容创作和报告生成"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.8
+      max_tokens: 6000
+      top_p: 0.95
+    prompt_source: "prompts.executor_prompts.BASIC_REPORT_WRITER_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true  # 启用E2B沙箱执行
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "WRITE"
+        - action_verb: "execute"
+          task_type: "THINK"
+      named_keys: ["GLM45ProWriter", "pro_writer", "glm45_writer"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 推理专家 - 专门用于思考和分析
+  # =============================================================================
+  
+  - name: "GLM45ReasoningExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "GLM-4.5推理专家，专门用于复杂的逻辑推理和分析任务"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.3  # 低温度确保逻辑严谨
+      max_tokens: 5000
+      top_p: 0.85
+    prompt_source: "prompts.executor_prompts.REASONING_EXECUTOR_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true  # 启用E2B沙箱执行
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 2  # 高优先级用于思考任务
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 2
+        - action_verb: "execute"
+          task_type: "CODE_INTERPRET"
+      named_keys: ["GLM45ReasoningExpert", "reasoning_expert", "think_expert"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 结果聚合器 - 信息整合专家
+  # =============================================================================
+  
+  - name: "GLM45MasterAggregator"
+    type: "aggregator"
+    adapter_class: "AggregatorAdapter"
+    description: "GLM-4.5结果聚合器，擅长整合多源信息并生成连贯的最终报告"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.5
+      max_tokens: 8000  # 支持长篇综合报告
+      top_p: 0.9
+    prompt_source: "prompts.aggregator_prompts.DEFAULT_AGGREGATOR_SYSTEM_MESSAGE"
+    response_model: null
+    tools: []
+    registration:
+      action_keys:
+        - action_verb: "aggregate"
+          task_type: "SEARCH"
+        - action_verb: "aggregate"
+          task_type: "THINK"
+        - action_verb: "aggregate"
+          task_type: "WRITE"
+        - action_verb: "aggregate"
+          task_type: "THINK"
+      named_keys: ["GLM45MasterAggregator", "master_aggregator", "glm45_aggregator"]
+    enabled: true
+
+  # =============================================================================
+  # GLM-4.5 任务原子化器 - 智能任务分解判断
+  # =============================================================================
+  
+  - name: "GLM45AtomizerMaster"
+    type: "atomizer"
+    adapter_class: "AtomizerAdapter"
+    description: "GLM-4.5任务原子化器，智能判断任务是否需要进一步分解"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.2  # 极低温度确保决策精准
+      max_tokens: 4000
+      top_p: 0.8
+    prompt_source: "prompts.atomizer_prompts.ATOMIZER_SYSTEM_MESSAGE"
+    response_model: "AtomizerOutput"
+    tools: []
+    registration:
+      named_keys: ["GLM45AtomizerMaster", "atomizer_master", "glm45_atomizer"]
+    enabled: true
+
+# =============================================================================
+# 元数据信息
+# =============================================================================
+
+metadata:
+  name: "GLM-4.5 Enhanced Multi-Task Agent Suite"
+  description: "增强版GLM-4.5代理套件，支持复杂的多层级、多类型任务工作流"
+  version: "1.1.0"
+  author: "SentientResearchAgent"
+  created_date: "2024-12-24"
+  model_info:
+    primary_model: "glm-4.5"
+    provider: "zhipuai"
+    api_version: "v4"
+    features:
+      - "多层级任务分解"
+      - "多类型任务支持(SEARCH/THINK/WRITE/CODE_INTERPRET)"
+      - "智能原子化决策"
+      - "E2B代码执行沙箱"
+      - "网络搜索集成"
+      - "推理工具支持"
+      - "专业内容生成"
+  
+  # 环境变量要求
+  required_env_vars:
+    - "ZHIPUAI_API_KEY"  # 智谱AI密钥
+    - "E2B_API_KEY"      # E2B沙箱密钥
+    - "E2B_TEMPLATE_ID"  # E2B模板ID
+  
+  # 支持的任务类型
+  supported_task_types:
+    - "SEARCH"          # 信息搜索和收集
+    - "THINK"           # 逻辑推理和分析
+    - "WRITE"           # 内容创作和报告生成
+    - "CODE_INTERPRET"  # 代码执行和解释
+  
+  # 工作流特性
+  workflow_features:
+    - "自动任务分解"     # 根据复杂度自动分解任务
+    - "并行执行支持"     # 支持独立任务并行执行
+    - "依赖关系管理"     # 智能处理任务间依赖
+    - "结果聚合整合"     # 自动整合多任务结果
+    - "迭代优化机制"     # 支持任务重新规划和优化
+  
+  # 配置建议
+  usage_recommendations:
+    simple_tasks:
+      temperature: 0.3-0.5
+      max_tokens: 2000-3000
+    complex_research:
+      temperature: 0.4-0.6
+      max_tokens: 5000-7000
+    creative_writing:
+      temperature: 0.7-0.9
+      max_tokens: 4000-6000
+    logical_reasoning:
+      temperature: 0.2-0.4
+      max_tokens: 3000-5000

@@ -27,16 +27,20 @@ class WebSocketService {
     }
 
     this.lastConnectionAttempt = Date.now()
+    // 在开发模式下直接连接到后端
+    const isProduction = process.env.NODE_ENV === 'production'
+    const socketUrl = isProduction ? window.location.origin : 'http://localhost:5000'
+    
     this.isConnecting = true
-    console.log('🔌 Attempting to connect to WebSocket at', window.location.origin)
+    console.log('🔌 Attempting to connect to WebSocket at', socketUrl)
     
     if (this.reconnectTimer) {
       clearTimeout(this.reconnectTimer)
       this.reconnectTimer = null
     }
 
-    this.socket = io(window.location.origin, {
-      transports: ['polling'],
+    this.socket = io(socketUrl, {
+      transports: ['polling', 'websocket'],
       timeout: 20000,
       forceNew: true,
       reconnection: false,

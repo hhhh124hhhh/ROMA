@@ -1,6 +1,5 @@
-@echo off
 echo ========================================
-echo   ROMA-Chinese 增强多任务执行启动器
+echo   GLM-4.5 增强多任务全栈启动器
 echo ========================================
 echo   智谱AI GLM-4.5 增强多任务智能体系统
 echo   Enhanced Multitask Execution Mode
@@ -55,7 +54,7 @@ echo   - CODE_INTERPRET: 代码执行和解释
 echo.
 echo   智能功能:
 echo   - 智能任务分解 (根据复杂度自动分解)
-echo   - 并行执行支持 (独立任务同时处理)  
+echo   - 并行执行支持 (独立任务同时处理)
 echo   - 依赖关系管理 (智能处理任务间依赖)
 echo   - 结果聚合整合 (自动整合多任务结果)
 echo.
