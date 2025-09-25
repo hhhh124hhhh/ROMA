@@ -132,6 +132,7 @@ flowchart TB
 
 ### 🚀 30-Second Quick Start
 
+**Linux/macOS:**
 ```bash
 git clone https://github.com/sentient-agi/ROMA.git
 cd ROMA
@@ -140,16 +141,49 @@ cd ROMA
 ./setup.sh
 ```
 
+**Windows (新增):**
+```cmd
+git clone https://github.com/sentient-agi/ROMA.git
+cd ROMA
+
+# 一键部署 - Docker方式（推荐）
+setup.bat --docker
+
+# 或者原生Windows环境
+setup_native_windows.bat
+
+# 快速启动服务
+start_fullstack.bat
+```
+
+**🇨🇳 智谱GLM-4.5用户快速开始:**
+```bash
+# 1. 配置智谱AI密钥
+echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
+
+# 2. 使用GLM-4.5专用配置
+cp agents_glm45_simple.yaml agents.yaml
+
+# 3. 启动服务（Windows）
+start_fullstack.bat
+# 或者（Linux/macOS）
+./setup.sh --native
+
+# 4. 访问 http://localhost:3000
+```
+
 Choose between:
 - **Docker Setup** (Recommended) - One-command setup with isolation
 - **Native Setup** - Direct installation for development
+- **Windows Native** (新增) - Full Windows support with batch scripts
 
 ## 🛠️ Technical Stack
 
-- **Framework**: Built on [AgnoAgents]([https://github.com/your/agnoagents](https://github.com/agno-agi/agno))
+- **Framework**: Built on [AgnoAgents](https://github.com/agno-agi/agno)
 - **Backend**: Python 3.12+ with FastAPI/Flask
 - **Frontend**: React + TypeScript with real-time WebSocket
-- **LLM Support**: Any provider via LiteLLM
+- **LLM Support**: Any provider via LiteLLM + 🇨🇳 **Native ZhipuAI GLM-4.5 Support**
+- **Platform Support**: Linux/macOS + 🪟 **Full Windows Native Support**
 - **Data Persistence**: Enterprise S3 mounting with security validation
   - 🔒 **goofys FUSE mounting** for zero-latency file access
   - 🛡️ **Path injection protection** with comprehensive validation
@@ -163,8 +197,14 @@ Choose between:
 
 ### Quick Start (Recommended)
 ```bash
-# Main setup (choose Docker or Native)
+# Linux/macOS - Main setup (choose Docker or Native)
 ./setup.sh
+
+# Windows - Docker setup (Recommended)
+setup.bat --docker
+
+# Windows - Native setup
+setup_native_windows.bat
 
 # Optional: Setup E2B sandbox integration
 ./setup.sh --e2b
@@ -175,12 +215,19 @@ Choose between:
 
 ### Command Line Options
 ```bash
+# Linux/macOS
 ./setup.sh --docker     # Run Docker setup directly
 ./setup.sh --docker-from-scratch  # Rebuild Docker images/containers from scratch (down -v, no cache)
 ./setup.sh --native     # Run native setup directly (macOS/Ubuntu/Debian)
 ./setup.sh --e2b        # Setup E2B template (requires E2B_API_KEY + AWS creds)
 ./setup.sh --test-e2b   # Test E2B template integration
 ./setup.sh --help       # Show all available options
+
+# Windows
+setup.bat --docker      # Docker setup for Windows
+setup.bat --help        # Show Windows-specific options
+check_environment.bat    # Diagnose Windows environment
+diagnose_environment.bat # Advanced Windows diagnostics
 ```
 
 ### Manual Installation
@@ -199,33 +246,57 @@ For secure code execution capabilities, optionally set up E2B sandboxes:
 ./setup.sh --test-e2b
 ```
 
-### 🪟 Windows Support
+### 🪟 全面的Windows原生支持
 
-Windows users can use the provided batch scripts for setup and execution:
+**新增功能**: 为Windows用户提供完整的原生部署解决方案，无需WSL或复杂配置
 
-1. **Docker Setup (Recommended)**:
+1. **一键部署脚本**:
    ```cmd
+   # Docker部署（推荐）
    setup.bat --docker
+   
+   # 原生Windows环境部署
+   setup_native_windows.bat
    ```
 
-2. **Quick Start**:
+2. **快速启动工具**:
    ```cmd
+   # 全栈启动（前端+后端）
+   start_fullstack.bat
+   
+   # 仅启动后端
+   start_backend.py
+   
+   # 快速启动向导
    quickstart.bat
    ```
 
-3. **Docker Management**:
+3. **Docker管理工具**:
    ```cmd
-   # Start services
+   # 启动服务
    docker\start-docker.bat
    
-   # Stop services
+   # 停止服务
    docker\stop-docker.bat
    
-   # View logs
+   # 查看日志
    docker\logs-docker.bat
    ```
 
-For detailed Windows instructions, see [Windows Setup Guide](docs/WINDOWS_SETUP.md).
+4. **环境诊断工具**:
+   ```cmd
+   # 环境检查
+   check_environment.bat
+   diagnose_environment.bat
+   ```
+
+**Windows特色功能**:
+- 🎯 **UV包管理器集成** - 超快的Python依赖管理
+- 🔧 **自动环境检测** - 智能检测Python、Node.js、Docker环境
+- 🌐 **编码问题解决** - 完美支持中文路径和字符
+- 📊 **可视化启动** - 新窗口启动，清晰的状态提示
+
+详细的Windows安装指南请参考 [Windows Setup Guide](docs/WINDOWS_SETUP.md)。
 
 **E2B Features:**
 - 🔒 **Secure Code Execution** - Run untrusted code in isolated sandboxes
@@ -248,6 +319,34 @@ A versatile agent powered by ChatGPT Search Preview for handling diverse tasks:
 - **Quick Prototyping**: Perfect for testing ROMA's capabilities without domain-specific setup
 
 Perfect for: General research, fact-checking, exploratory analysis, quick information gathering
+
+### 🇨🇳 智谱GLM-4.5智能体套件 (新增)
+专为中文用户打造的原生智谱AI GLM-4.5智能体系统：
+- **🧠 原生中文理解**: 基于智谱AI GLM-4.5的强大中文处理能力
+- **🔄 分层任务分解**: 智能规划器自动将复杂任务分解为并行子任务
+- **✍️ 专业内容生成**: 高质量中文写作和报告生成
+- **⚡ 零配置启动**: 仅需智谱AI API密钥即可快速开始
+- **📊 实时可视化**: Web界面实时显示智能体执行过程和结果
+
+**核心组件**:
+- `GLM45MasterPlanner` - 主规划器，负责任务分解和策略制定
+- `GLM45SmartExecutor` - 智能执行器，处理搜索、分析和推理任务
+- `GLM45ProWriter` - 专业写作器，生成高质量中文内容
+- `GLM45MasterAggregator` - 结果聚合器，整合多任务结果
+- `GLM45AtomizerMaster` - 任务原子化器，判断任务复杂度
+
+**快速开始**:
+```bash
+# 1. 配置智谱AI密钥
+echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
+
+# 2. 启动服务
+start_fullstack.bat
+
+# 3. 访问 http://localhost:3000
+```
+
+适用场景: 中文研究分析、技术文档生成、市场调研、学术写作、商业报告
 
 ### 🔬 Deep Research Agent
 A comprehensive research system that breaks down complex research questions into manageable sub-tasks:
@@ -299,7 +398,7 @@ Below are the performance graphs for each benchmark.
 ### [SEAL-0](https://huggingface.co/datasets/vtllms/sealqa)
 SealQA is a new challenging benchmark for evaluating Search-Augmented Language models on fact-seeking questions where web search yields conflicting, noisy, or unhelpful results.  
 
-![SEAL-0 Results](assets/seal-0-full.001.jpeg)
+![SEAL-0 结果](assets/seal-0-full.001.jpeg)
 
 ---
 
@@ -309,7 +408,7 @@ SealQA is a new challenging benchmark for evaluating Search-Augmented Language m
 
 A comprehensive evaluation dataset designed to test the capabilities of Retrieval-Augmented Generation (RAG) systems across factuality, retrieval accuracy, and reasoning.  
 
-![FRAMES Results](assets/FRAMES-full.001.jpeg)
+![FRAMES 结果](assets/FRAMES-full.001.jpeg)
 
 </details>
 
@@ -321,39 +420,55 @@ A comprehensive evaluation dataset designed to test the capabilities of Retrieva
 
 Factuality benchmark that measures the ability for language models to answer short, fact-seeking questions.  
 
-![SimpleQA Results](assets/simpleQAFull.001.jpeg)
+![SimpleQA 结果](assets/simpleQAFull.001.jpeg)
 
 </details>
 
-## ✨ Features
+## ✨ 特色功能
 
 <table>
 <tr>
 <td width="50%">
 
-### 🔄 **Recursive Task Decomposition**
-Automatically breaks down complex tasks into manageable subtasks with intelligent dependency management. Runs independent sub-tasks in **parallel**.
+### 🔄 **递归任务分解**
+自动将复杂任务分解为可管理的子任务，具有智能依赖管理。独立的子任务可**并行**运行。
 
 </td>
 <td width="50%">
 
-### 🤖 **Agent Agnostic**
-Works with any provider (OpenAI, Anthropic, Google, local models) through unified interface, as long as it has an `agent.run()` command, then you can use it!
+### 🤖 **智能体无关**
+适用于任何提供商（OpenAI、Anthropic、Google、🇨🇳 **智谱AI GLM-4.5**、本地模型），通过统一接口，只要它有`agent.run()`命令，你就可以使用它！
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### 🔍 **Complete Transparency**
-Stage tracing shows exactly what happens at each step - debug and optimize with full visibility
+### 🔍 **完全透明**
+阶段跟踪显示每个步骤具体发生了什么 - 具有完全可见性的调试和优化
 
 </td>
 <td width="50%">
 
-### 🔌 Connect Any Tool
+### 🪟 **原生Windows支持**
 
-Seamlessly integrate external tools and protocols with configurable intervention points. Already includes production-grade connectors such as E2B, file-read-write, and more.
+完整的Windows部署，带有**自动化批处理脚本**、**UV包管理器**和**中文环境**支持。Windows用户零配置启动。
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🔌 连接任何工具
+
+通过可配置的干预点无缝集成外部工具和协议。已包含生产级连接器，如E2B、文件读写等。
+
+</td>
+<td width="50%">
+
+### 🇨🇳 **中文优化体验**
+
+原生中文语言支持，集成**智谱AI GLM-4.5**、**简化配置**和**完整中文文档**，为国内AI开发者提供便利。
 
 </td>
 </tr>
@@ -362,17 +477,48 @@ Seamlessly integrate external tools and protocols with configurable intervention
 
 
 
-## 🙏 Acknowledgments
+## 🙏 致谢与贡献
 
-This framework would not have been possible if it wasn't for these amazing open-source contributions!
-- Inspired by the hierarchical planning approach described in ["Beyond Outlining: Heterogeneous Recursive Planning"](https://arxiv.org/abs/2503.08275) by Xiong et al.
-- [Pydantic](https://github.com/pydantic/pydantic) - Data validation using Python type annotations
-- [Agno]([https://github.com/agno-ai/agno](https://github.com/agno-agi/agno)) - Framework for building AI agents
-- [E2B](https://github.com/e2b-dev/e2b) - Cloud runtime for AI agents
+### 🌟 原创开源项目致谢
 
-## 📚 Citation
+这个框架的诞生离不开以下杰出的开源贡献，我们深表敬意：
+- 理论基础来自 ["Beyond Outlining: Heterogeneous Recursive Planning"](https://arxiv.org/abs/2503.08275) (Xiong et al.) 的分层规划方法
+- [Pydantic](https://github.com/pydantic/pydantic) - 基于Python类型注解的数据验证
+- [Agno](https://github.com/agno-agi/agno) - AI智能体构建框架
+- [E2B](https://github.com/e2b-dev/e2b) - AI智能体云运行环境
 
-If you use the ROMA repo in your research, please cite:
+### 🇨🇳 本地化增强贡献
+
+**Windows原生支持和智谱GLM-4.5集成** - 弥补了原项目在Windows部署和中文大模型支持方面的不足：
+
+#### 🪟 Windows生态系统完善
+- **完整的Windows批处理脚本体系** - 涵盖安装、启动、管理全流程
+- **UV包管理器集成** - 提供超快的Python依赖管理体验
+- **自动化环境检测与诊断** - 智能检测并解决常见Windows环境问题
+- **中文路径和编码完美支持** - 解决Windows中文环境下的各种兼容性问题
+
+#### 🧠 智谱AI GLM-4.5原生集成
+- **零配置智谱AI支持** - 直接支持智谱AI API，无需第三方代理
+- **中文优化的提示工程** - 针对中文语境优化的系统提示和交互逻辑
+- **简化配置文件** - 专门的GLM-4.5配置模板，降低使用门槛
+- **完整的中文文档和示例** - 包含启动指南、配置说明和使用示例
+
+#### 🎯 为国内开发者赋能
+这些增强功能为国内的大模型从业者和AI开发者提供了：
+- **🔍 可视化智能体执行窗口** - 实时观察智能体的思考和执行过程
+- **🚀 零门槛快速上手** - Windows用户无需复杂配置即可体验前沿智能体技术
+- **📚 完整的中文学习资源** - 从安装到高级应用的全中文指导
+- **🛠️ 生产就绪的部署方案** - 适合企业环境的稳定部署选项
+
+通过这些本地化增强，我们希望降低ROMA框架的使用门槛，让更多中文用户能够便捷地体验和应用先进的递归智能体技术。
+
+### 🤝 开源精神传承
+
+我们承诺继续遵循开源精神，将这些增强功能回馈给社区，与原项目保持兼容，共同推动AI智能体技术的发展和普及。
+
+## 📚 引用
+
+如果您在研究中使用了ROMA仓库，请引用：
 
 ```bibtex
 @software{al_zubi_2025_17052592,
@@ -398,15 +544,15 @@ If you use the ROMA repo in your research, please cite:
 }
 ```
 
-## 🌟 Star History
+## 🌟 星标历史
 
 <div align="center">
 
-[![Star History Chart](https://api.star-history.com/svg?repos=sentient-agi/roma&type=Date)](https://www.star-history.com/#sentient-agi/roma&Date)
+[![星标历史图表](https://api.star-history.com/svg?repos=sentient-agi/roma&type=Date)](https://www.star-history.com/#sentient-agi/roma&Date)
 
 </div>
 
-## 📄 License
+## 📄 许可证
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+该项目采用Apache 2.0许可证 - 详情请参见[LICENSE](LICENSE)文件。
 
