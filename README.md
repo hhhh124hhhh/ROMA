@@ -44,20 +44,24 @@
 </div>
 
 
-## 📖 Documentation
+## 📖 文档导航
 
+### 🆕 核心增强功能
+- **[🪟 Windows原生部署](docs/WINDOWS_SETUP.md)** - 完整的Windows部署脚本和环境配置
+- **[🇨🇳 智谱GLM-4.5集成](docs/GLM_45_SETUP.md)** - 零配置智谱AI模型接入指南
+- **[📊 可视化智能体监控](docs/VISUALIZATION.md)** - 实时观察智能体执行过程
 
-- **[🚀 Introduction](docs/INTRODUCTION.md)** - Understand the vision and architecture behind ROMA
+### 📚 完整文档
+- **[🚀 项目介绍](docs/INTRODUCTION.md)** - 了解ROMA的架构和设计理念
+- **[📦 安装配置](docs/SETUP.md)** - 详细的配置选项和环境设置
+- **[🤖 智能体指南](docs/AGENTS_GUIDE.md)** - 学习创建和定制专属智能体
+- **[⚙️ 配置详解](docs/CONFIGURATION.md)** - 深入的配置选项和环境设置
+- **[🗺️ 发展路线](docs/ROADMAP.md)** - 查看ROMA的未来规划
+- **[🌟 原开源项目](https://github.com/sentient-agi/ROMA)** - 查看原始项目和更多资源
 
-- **[📦 Setup](docs/SETUP.md)** - Detailed configuration options and environment setup
+## 🎯 什么是ROMA？
 
-- **[🤖 Agents Guide](docs/AGENTS_GUIDE.md)** - Learn how to create and customize your own agents
-
-- **[⚙️ Configuration](docs/CONFIGURATION.md)** - Detailed configuration options and environment setup
-
-- **[🗺️ Roadmap](docs/ROADMAP.md)** - See what's coming next for ROMA
-
-## 🎯 What is ROMA?
+> **🌟 特别增强版本**: 本版本在原开源项目基础上，专门为中文用户增加了**Windows原生部署脚本**和**智谱GLM-4.5原生支持**，让国内开发者零门槛体验先进的递归智能体技术。
 
 <div align="center">
     <img src="./assets/roma_run.gif" alt="alt text" width="80%"/>
@@ -130,18 +134,25 @@ flowchart TB
 
 </details><br>
 
-### 🚀 30-Second Quick Start
+### 🚀 30秒快速开始
 
-**Linux/macOS:**
-```bash
+#### 🇨🇳 **智谱GLM-4.5用户专享** (推荐中文用户)
+```cmd
+# 1. 克隆项目
 git clone https://github.com/sentient-agi/ROMA.git
 cd ROMA
 
-# Run the automated setup
-./setup.sh
+# 2. 配置智谱AI密钥
+echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
+
+# 3. 一键启动（Windows）
+setup.bat --docker --glm45
+start_fullstack.bat
+
+# 4. 访问 http://localhost:3000 开始使用
 ```
 
-**Windows (新增):**
+#### 🪟 **Windows原生部署** (零配置体验)
 ```cmd
 git clone https://github.com/sentient-agi/ROMA.git
 cd ROMA
@@ -156,20 +167,13 @@ setup_native_windows.bat
 start_fullstack.bat
 ```
 
-**🇨🇳 智谱GLM-4.5用户快速开始:**
+#### 🐧 **Linux/macOS传统方式**
 ```bash
-# 1. 配置智谱AI密钥
-echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
+git clone https://github.com/sentient-agi/ROMA.git
+cd ROMA
 
-# 2. 使用GLM-4.5专用配置
-cp agents_glm45_simple.yaml agents.yaml
-
-# 3. 启动服务（Windows）
-start_fullstack.bat
-# 或者（Linux/macOS）
-./setup.sh --native
-
-# 4. 访问 http://localhost:3000
+# 自动化安装
+./setup.sh
 ```
 
 Choose between:
@@ -177,21 +181,27 @@ Choose between:
 - **Native Setup** - Direct installation for development
 - **Windows Native** (新增) - Full Windows support with batch scripts
 
-## 🛠️ Technical Stack
+## 🛠️ 技术栈
 
-- **Framework**: Built on [AgnoAgents](https://github.com/agno-agi/agno)
+### 🌟 核心增强功能
+- **🇨🇳 智谱GLM-4.5原生支持**: 零配置接入智谱AI，专为中文优化
+- **🪟 Windows原生部署**: 完整批处理脚本，UV包管理器，中文环境支持
+- **📊 可视化监控**: 实时WebSocket展示智能体执行过程和状态
+
+### 🏗️ 技术架构
+- **Framework**: 基于 [AgnoAgents](https://github.com/agno-agi/agno) 构建
 - **Backend**: Python 3.12+ with FastAPI/Flask
 - **Frontend**: React + TypeScript with real-time WebSocket
-- **LLM Support**: Any provider via LiteLLM + 🇨🇳 **Native ZhipuAI GLM-4.5 Support**
-- **Platform Support**: Linux/macOS + 🪟 **Full Windows Native Support**
-- **Data Persistence**: Enterprise S3 mounting with security validation
-  - 🔒 **goofys FUSE mounting** for zero-latency file access
-  - 🛡️ **Path injection protection** with comprehensive validation
-  - 🔐 **AWS credentials verification** before operations
-  - 📁 **Dynamic Docker Compose** with secure volume mounting
-- **Code Execution**: E2B sandboxes with unified S3 integration
-- **Security**: Production-grade validation and error handling
-- **Features**: Multi-modal, tools, MCP, hooks, caching
+- **LLM Support**: 支持任何提供商 via LiteLLM + **智谱AI GLM-4.5原生支持**
+- **Platform Support**: Linux/macOS + **完整Windows原生支持**
+- **Data Persistence**: 企业级S3挂载与安全验证
+  - 🔒 **goofys FUSE mounting** 零延迟文件访问
+  - 🛡️ **路径注入保护** 全面验证机制
+  - 🔐 **AWS凭证验证** 操作前预检
+  - 📁 **动态Docker Compose** 安全卷挂载
+- **Code Execution**: E2B沙箱与统一S3集成
+- **Security**: 生产级验证和错误处理
+- **Features**: 多模态、工具集成、MCP、钩子、缓存
 
 ## 📦 Installation Options
 
@@ -246,57 +256,37 @@ For secure code execution capabilities, optionally set up E2B sandboxes:
 ./setup.sh --test-e2b
 ```
 
-### 🪟 全面的Windows原生支持
+### 🪟 Windows原生支持 - 核心增强功能
 
-**新增功能**: 为Windows用户提供完整的原生部署解决方案，无需WSL或复杂配置
+**🌟 突破性改进**: 完整的Windows原生部署解决方案，彻底解决原项目Windows支持不足的问题
 
-1. **一键部署脚本**:
-   ```cmd
-   # Docker部署（推荐）
-   setup.bat --docker
-   
-   # 原生Windows环境部署
-   setup_native_windows.bat
-   ```
+#### 🚀 一键部署体验
+```cmd
+# 🎯 智谱GLM-4.5 + Windows组合（推荐）
+setup.bat --docker --glm45  # Docker + 智谱AI一键部署
+start_fullstack.bat         # 全栈服务快速启动
 
-2. **快速启动工具**:
-   ```cmd
-   # 全栈启动（前端+后端）
-   start_fullstack.bat
-   
-   # 仅启动后端
-   start_backend.py
-   
-   # 快速启动向导
-   quickstart.bat
-   ```
+# 🔧 灵活部署选项
+setup.bat --docker            # Docker部署（推荐）
+setup_native_windows.bat      # 原生Windows环境
+quickstart.bat                # 智能启动向导
+```
 
-3. **Docker管理工具**:
-   ```cmd
-   # 启动服务
-   docker\start-docker.bat
-   
-   # 停止服务
-   docker\stop-docker.bat
-   
-   # 查看日志
-   docker\logs-docker.bat
-   ```
+#### 🛠️ 完整工具链
+| 功能 | 脚本 | 用途 |
+|------|------|------|
+| 🚀 **全栈启动** | `start_fullstack.bat` | 前端+后端一键启动 |
+| 🐳 **Docker管理** | `docker/start-docker.bat` | 容器化服务管理 |
+| 🔍 **环境诊断** | `diagnose_environment.bat` | 智能环境检测 |
+| ⚡ **UV包管理** | 内置集成 | 超快Python依赖管理 |
 
-4. **环境诊断工具**:
-   ```cmd
-   # 环境检查
-   check_environment.bat
-   diagnose_environment.bat
-   ```
+#### 🌟 Windows独有优势
+- **🎯 中文路径完美支持** - 解决Windows中文环境兼容性
+- **📊 可视化启动界面** - 新窗口显示，状态一目了然
+- **🔧 智能环境检测** - 自动发现并解决配置问题
+- **⚡ UV包管理器** - 比pip快10倍的依赖安装
 
-**Windows特色功能**:
-- 🎯 **UV包管理器集成** - 超快的Python依赖管理
-- 🔧 **自动环境检测** - 智能检测Python、Node.js、Docker环境
-- 🌐 **编码问题解决** - 完美支持中文路径和字符
-- 📊 **可视化启动** - 新窗口启动，清晰的状态提示
-
-详细的Windows安装指南请参考 [Windows Setup Guide](docs/WINDOWS_SETUP.md)。
+> 📖 **详细指南**: [Windows完整部署文档](docs/WINDOWS_SETUP.md)
 
 **E2B Features:**
 - 🔒 **Secure Code Execution** - Run untrusted code in isolated sandboxes
@@ -320,33 +310,44 @@ A versatile agent powered by ChatGPT Search Preview for handling diverse tasks:
 
 Perfect for: General research, fact-checking, exploratory analysis, quick information gathering
 
-### 🇨🇳 智谱GLM-4.5智能体套件 (新增)
-专为中文用户打造的原生智谱AI GLM-4.5智能体系统：
-- **🧠 原生中文理解**: 基于智谱AI GLM-4.5的强大中文处理能力
-- **🔄 分层任务分解**: 智能规划器自动将复杂任务分解为并行子任务
-- **✍️ 专业内容生成**: 高质量中文写作和报告生成
-- **⚡ 零配置启动**: 仅需智谱AI API密钥即可快速开始
-- **📊 实时可视化**: Web界面实时显示智能体执行过程和结果
+### 🇨🇳 智谱GLM-4.5智能体套件 - 核心增强功能
 
-**核心组件**:
-- `GLM45MasterPlanner` - 主规划器，负责任务分解和策略制定
-- `GLM45SmartExecutor` - 智能执行器，处理搜索、分析和推理任务
-- `GLM45ProWriter` - 专业写作器，生成高质量中文内容
-- `GLM45MasterAggregator` - 结果聚合器，整合多任务结果
-- `GLM45AtomizerMaster` - 任务原子化器，判断任务复杂度
+**🌟 突破性改进**: 原生智谱AI GLM-4.5支持，填补了原项目中文大模型支持的空白
 
-**快速开始**:
-```bash
-# 1. 配置智谱AI密钥
+#### 🧠 核心优势
+- **🚀 零配置接入**: 仅需API密钥，无需第三方代理或复杂设置
+- **🎯 中文优化**: 专门针对中文语境设计的提示工程和交互逻辑
+- **📊 可视化执行**: 实时观察智能体的中文思考和推理过程
+- **⚡ 极速体验**: 本土化部署，响应速度显著提升
+
+#### 🛠️ 专业智能体组件
+| 组件 | 功能 | 特色 |
+|------|------|------|
+| **GLM45MasterPlanner** | 🧩 任务分解规划 | 中文语境下的智能任务拆分 |
+| **GLM45SmartExecutor** | 🔍 搜索分析执行 | 整合本土搜索和知识资源 |
+| **GLM45ProWriter** | ✍️ 专业内容生成 | 高质量中文写作和报告 |
+| **GLM45MasterAggregator** | 🔗 结果智能聚合 | 多任务结果的逻辑整合 |
+| **GLM45AtomizerMaster** | ⚖️ 复杂度判断 | 智能任务原子化决策 |
+
+#### 🚀 极简启动流程
+```cmd
+# 1️⃣ 设置智谱AI密钥（获取地址：https://open.bigmodel.cn/）
 echo "ZHIPUAI_API_KEY=你的智谱AI密钥" > .env
 
-# 2. 启动服务
+# 2️⃣ 一键启动智谱AI智能体
+setup.bat --docker --glm45
 start_fullstack.bat
 
-# 3. 访问 http://localhost:3000
+# 3️⃣ 打开浏览器访问 http://localhost:3000
 ```
 
-适用场景: 中文研究分析、技术文档生成、市场调研、学术写作、商业报告
+#### 🎯 应用场景
+**学术研究**: 中文论文写作、文献综述、研究报告  
+**商业应用**: 市场调研、竞品分析、商业计划书  
+**内容创作**: 技术文档、培训材料、营销文案  
+**数据分析**: 行业报告、趋势分析、可视化图表  
+
+> 📖 **深入了解**: [智谱GLM-4.5完整配置指南](docs/GLM_45_SETUP.md)
 
 ### 🔬 Deep Research Agent
 A comprehensive research system that breaks down complex research questions into manageable sub-tasks:
@@ -424,51 +425,58 @@ Factuality benchmark that measures the ability for language models to answer sho
 
 </details>
 
-## ✨ 特色功能
+## ✨ 特色功能对比
 
 <table>
 <tr>
-<td width="50%">
+<td width="25%" align="center">
 
 ### 🔄 **递归任务分解**
 自动将复杂任务分解为可管理的子任务，具有智能依赖管理。独立的子任务可**并行**运行。
 
 </td>
-<td width="50%">
+<td width="25%" align="center">
 
 ### 🤖 **智能体无关**
-适用于任何提供商（OpenAI、Anthropic、Google、🇨🇳 **智谱AI GLM-4.5**、本地模型），通过统一接口，只要它有`agent.run()`命令，你就可以使用它！
+适用于任何提供商（OpenAI、Anthropic、Google、🇨🇳 **智谱AI GLM-4.5**、本地模型），通过统一接口兼容。
 
 </td>
-</tr>
-<tr>
-<td width="50%">
+<td width="25%" align="center">
 
 ### 🔍 **完全透明**
-阶段跟踪显示每个步骤具体发生了什么 - 具有完全可见性的调试和优化
+阶段跟踪显示每个步骤具体发生了什么 - 具有完全可见性的调试和优化体验。
 
 </td>
-<td width="50%">
+<td width="25%" align="center">
 
-### 🪟 **原生Windows支持**
-
-完整的Windows部署，带有**自动化批处理脚本**、**UV包管理器**和**中文环境**支持。Windows用户零配置启动。
+### 🪟 **Windows原生**
+完整的Windows部署，带有**自动化批处理脚本**、**UV包管理器**和**中文环境**支持。
 
 </td>
 </tr>
 <tr>
-<td width="50%">
+<td width="25%" align="center">
 
-### 🔌 连接任何工具
-
-通过可配置的干预点无缝集成外部工具和协议。已包含生产级连接器，如E2B、文件读写等。
+### 🔌 **工具生态**
+通过可配置的干预点无缝集成外部工具和协议。包含生产级连接器。
 
 </td>
-<td width="50%">
+<td width="25%" align="center">
 
-### 🇨🇳 **中文优化体验**
+### 🇨🇳 **中文优化**
+原生中文语言支持，集成**智谱AI GLM-4.5**、**简化配置**和**完整中文文档**。
 
-原生中文语言支持，集成**智谱AI GLM-4.5**、**简化配置**和**完整中文文档**，为国内AI开发者提供便利。
+</td>
+<td width="25%" align="center">
+
+### 📊 **可视化监控**
+实时WebSocket展示智能体执行过程，为开发者提供**透明的调试窗口**。
+
+</td>
+<td width="25%" align="center">
+
+### ⚡ **极速部署**
+**30秒快速启动**，支持Docker和原生部署，专为开发者体验优化。
 
 </td>
 </tr>
@@ -481,36 +489,52 @@ Factuality benchmark that measures the ability for language models to answer sho
 
 ### 🌟 原创开源项目致谢
 
-这个框架的诞生离不开以下杰出的开源贡献，我们深表敬意：
-- 理论基础来自 ["Beyond Outlining: Heterogeneous Recursive Planning"](https://arxiv.org/abs/2503.08275) (Xiong et al.) 的分层规划方法
-- [Pydantic](https://github.com/pydantic/pydantic) - 基于Python类型注解的数据验证
-- [Agno](https://github.com/agno-agi/agno) - AI智能体构建框架
-- [E2B](https://github.com/e2b-dev/e2b) - AI智能体云运行环境
+本项目基于以下优秀的开源贡献构建，在此致以诚挚敬意：
+- **核心理论基础** - ["Beyond Outlining: Heterogeneous Recursive Planning"](https://arxiv.org/abs/2503.08275) (Xiong et al.) 的分层规划方法论
+- **数据验证框架** - [Pydantic](https://github.com/pydantic/pydantic) 基于Python类型注解的数据验证
+- **智能体构建** - [Agno](https://github.com/agno-agi/agno) AI智能体构建框架  
+- **云运行环境** - [E2B](https://github.com/e2b-dev/e2b) AI智能体云运行环境
+
+> 📚 **原项目资源**: 查看[原始ROMA项目](https://github.com/sentient-agi/ROMA)获取更多技术文档和社区资源
 
 ### 🇨🇳 本地化增强贡献
 
-**Windows原生支持和智谱GLM-4.5集成** - 弥补了原项目在Windows部署和中文大模型支持方面的不足：
+**🎯 核心增强**: 本版本专门为中文开发者新增了**Windows原生部署脚本**和**智谱GLM-4.5集成**，彻底解决了原项目在Windows支持和中文大模型方面的不足。
 
-#### 🪟 Windows生态系统完善
-- **完整的Windows批处理脚本体系** - 涵盖安装、启动、管理全流程
-- **UV包管理器集成** - 提供超快的Python依赖管理体验
-- **自动化环境检测与诊断** - 智能检测并解决常见Windows环境问题
-- **中文路径和编码完美支持** - 解决Windows中文环境下的各种兼容性问题
+#### 🪟 **Windows生态系统完善** - 突破性改进
+```cmd
+# 🚀 一键体验核心功能
+setup.bat --docker --glm45    # Docker + 智谱AI组合部署
+start_fullstack.bat           # 全栈服务快速启动
+diagnose_environment.bat      # 智能环境诊断修复
+```
 
-#### 🧠 智谱AI GLM-4.5原生集成
-- **零配置智谱AI支持** - 直接支持智谱AI API，无需第三方代理
-- **中文优化的提示工程** - 针对中文语境优化的系统提示和交互逻辑
-- **简化配置文件** - 专门的GLM-4.5配置模板，降低使用门槛
-- **完整的中文文档和示例** - 包含启动指南、配置说明和使用示例
+**🔧 完整工具链**:
+- **批处理脚本体系** - 涵盖安装、启动、管理、诊断全流程
+- **UV包管理器** - 比pip快10倍的Python依赖管理体验  
+- **中文环境兼容** - 完美解决Windows中文路径和编码问题
+- **可视化界面** - 新窗口启动，状态一目了然
 
-#### 🎯 为国内开发者赋能
-这些增强功能为国内的大模型从业者和AI开发者提供了：
-- **🔍 可视化智能体执行窗口** - 实时观察智能体的思考和执行过程
-- **🚀 零门槛快速上手** - Windows用户无需复杂配置即可体验前沿智能体技术
-- **📚 完整的中文学习资源** - 从安装到高级应用的全中文指导
-- **🛠️ 生产就绪的部署方案** - 适合企业环境的稳定部署选项
+#### 🧠 **智谱AI GLM-4.5原生集成** - 突破性改进  
+```cmd
+# 🎯 零配置智谱AI体验
+echo "ZHIPUAI_API_KEY=sk-xxx" > .env  # 设置API密钥
+setup.bat --glm45                    # 智谱AI专用部署
+# 🌐 访问 http://localhost:3000 开始使用
+```
 
-通过这些本地化增强，我们希望降低ROMA框架的使用门槛，让更多中文用户能够便捷地体验和应用先进的递归智能体技术。
+**🇨🇳 中文优化特性**:
+- **零配置接入** - 直接支持智谱AI API，无需第三方代理
+- **中文提示工程** - 专门优化的中文语境交互逻辑
+- **简化配置** - GLM-4.5专用配置模板和启动脚本
+- **可视化执行** - 实时观察中文智能体的思考推理过程
+
+#### 🎯 **为国内开发者赋能**
+这些核心增强为中国的AI开发者和大模型从业者提供：
+- **🔍 透明的智能体执行窗口** - 实时可视化观察智能体思考过程
+- **🚀 零门槛快速上手** - Windows用户30秒即可体验前沿智能体技术  
+- **📚 完整中文学习资源** - 从入门到高级应用的全中文指导
+- **🛠️ 生产就绪部署** - 适合企业环境的稳定部署方案
 
 ### 🤝 开源精神传承
 
