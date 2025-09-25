@@ -18,9 +18,9 @@ cache:
 
 # Execution Framework
 execution:
-  max_concurrent_nodes: 10  # Increased from 3 for better parallelization
-  max_parallel_nodes: 8     # New: Maximum nodes to process in parallel batches
-  max_execution_steps: 500  # More steps for deep reasoning
+  max_concurrent_nodes: 15  # Increased from 3 for better parallelization
+  max_parallel_nodes: 12     # New: Maximum nodes to process in parallel batches
+  max_execution_steps: 1000  # Increased steps for deeper reasoning chains
   rate_limit_rpm: 30  # Reduced from 60 to avoid Gemini rate limits
   enable_hitl: false
   hitl_timeout_seconds: 1200.0  # 10 minutes for human review
@@ -57,10 +57,10 @@ execution:
   hitl_root_plan_only: false  # Set to true to only review root node's plan
   
   # NEW: Force root nodes to always plan (skip atomizer) - prevents atomic classification of complex queries
-  force_root_node_planning: true  # Set to false to allow atomizer to decide for root nodes
+  force_root_node_planning: false  # Set to false to allow atomizer to decide for root nodes
   
   # NEW: Skip atomization entirely - forces hierarchy/depth-based execution decisions
-  skip_atomization: true  # Set to true to bypass atomizer and use max_recursion_depth rules
+  skip_atomization: false  # Set to false to enable deeper task decomposition
   
   # These are ignored when hitl_root_plan_only is true
   hitl_after_plan_generation: false
