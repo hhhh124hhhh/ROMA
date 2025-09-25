@@ -104,6 +104,13 @@ agents:
     response_model: null  # 聚合器不需要结构化输出
     tools: []  # 聚合不需要外部工具
     registration:
+      action_keys:
+        - action_verb: "aggregate"
+          task_type: "SEARCH"
+        - action_verb: "aggregate"
+          task_type: "THINK"
+        - action_verb: "aggregate"
+          task_type: "WRITE"
       named_keys: ["GLM45MasterAggregator", "master_aggregator", "glm45_aggregator"]
     enabled: true
 
