@@ -293,6 +293,18 @@ class AgentFactory:
                         model_kwargs["base_url"] = api_base
                         logger.info(f"🔧 Using custom base URL for ZhipuAI: {api_base}")
                     
+                    # CRITICAL FIX: ZhipuAI doesn't support 'developer' role, only 'system'
+                    # Override the default role mapping for ZhipuAI
+                    zhipuai_role_map = {
+                        "system": "system",  # Keep system as system, not developer
+                        "user": "user",
+                        "assistant": "assistant", 
+                        "tool": "tool",
+                        "model": "assistant",
+                    }
+                    model_kwargs["role_map"] = zhipuai_role_map
+                    logger.info(f"🔧 Applied ZhipuAI role mapping: {zhipuai_role_map}")
+                    
                     # Set API key for ZhipuAI
                     if not model_kwargs.get("api_key"):
                         api_key = os.getenv("ZHIPUAI_API_KEY")

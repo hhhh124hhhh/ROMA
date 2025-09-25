@@ -197,9 +197,23 @@ def setup_logging(config: 'LoggingConfig', console_filter: Optional[callable] = 
                 mode=log_mode,  # Configurable: "w" truncates, "a" appends
             )
     
-    # Add custom log levels
-    logger.level("PLAN", no=25, color="<blue>")
-    logger.level("EXECUTE", no=26, color="<magenta>")
+    # Add custom log levels (check if they exist first to avoid conflicts)
+    try:
+        # Try to get existing level first
+        try:
+            logger.level("PLAN")
+        except ValueError:
+            # Level doesn't exist, add it
+            logger.level("PLAN", no=25, color="<blue>")
+            
+        try:
+            logger.level("EXECUTE")
+        except ValueError:
+            # Level doesn't exist, add it
+            logger.level("EXECUTE", no=26, color="<magenta>")
+    except Exception as e:
+        # If there's any issue with custom levels, log it but don't fail
+        logger.debug(f"Note: Custom log levels setup issue (non-critical): {e}")
     
     logger.success(f"Logging configured: level={config.level}")
 

@@ -17,7 +17,7 @@ agents:
       temperature: 0.6
       max_tokens: 4000
       top_p: 0.9
-    prompt_source: "prompts.planner_prompts.ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE"
+    prompt_source: "prompts.planner_prompts.GLM45_ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE"
     response_model: "PlanOutput"
     tools: []  # 不使用外部工具包
     registration:

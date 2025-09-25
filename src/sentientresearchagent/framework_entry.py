@@ -172,7 +172,14 @@ class SentientAgent:
         self.state_manager = self.system_manager.state_manager
         self.hitl_coordinator = getattr(self.system_manager, 'hitl_coordinator', None) or getattr(self.system_manager, 'hitl_service', None)
         self.node_processor = self.system_manager.node_processor
-        self.execution_engine = getattr(self.system_manager, 'execution_engine', None) or getattr(self.system_manager, 'execution_orchestrator', None)
+        
+        # Fixed: Use the adapter from system_manager if available, otherwise create one
+        if hasattr(self.system_manager, '_create_execution_engine_adapter'):
+            self.execution_engine = self.system_manager._create_execution_engine_adapter()
+        else:
+            # Fallback: get execution_engine or execution_orchestrator directly
+            self.execution_engine = getattr(self.system_manager, 'execution_engine', None) or getattr(self.system_manager, 'execution_orchestrator', None)
+        
         self.cache_manager = getattr(self.system_manager, 'cache_manager', None)
         self.error_handler = getattr(self.system_manager, 'error_handler', None)
         

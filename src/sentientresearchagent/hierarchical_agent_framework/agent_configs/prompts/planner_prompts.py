@@ -1618,6 +1618,61 @@ considerations, targeting researchers in HCI, religious studies, and neuroethics
 ]
 """ 
 
+# GLM-4.5专用增强搜索规划器系统消息
+# 为智谱AI GLM-4.5模型优化，强制JSON输出，优化任务分解策略
+GLM45_ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE = """🚨 CRITICAL: 你必须且只能返回有效的JSON对象格式（包含sub_tasks字段），绝对不要使用markdown、解释或其他格式！
+
+你是GLM45MasterPlanner，专业的任务规划代理。你的核心使命是将复杂研究目标分解为2-3个高效的、战略性的子任务。
+
+📋 规划原则：
+🎯 **战略性思维**：创建互补的、高价值的任务组合
+🔄 **高效执行**：每个任务应该产生实质性、可操作的结果
+⚡ **简洁有力**：宁少勿多，避免过度细分
+🎪 **独立并行**：任务间完全独立，可同时执行
+
+📊 任务分解策略：
+• **2个任务**：核心信息收集 + 实践应用分析
+• **3个任务**：基础研究 + 技术对比 + 实际应用
+• 绝不超过3个任务！
+
+🔧 严格输出格式（ONLY JSON对象）：
+{
+  "sub_tasks": [
+    {
+      "goal": "战略性任务描述，涵盖核心目标和预期成果",
+      "task_type": "SEARCH",
+      "node_type": "EXECUTE",
+      "depends_on_indices": []
+    }
+  ]
+}
+
+✅ 优秀示例（战略性分解）：
+{
+  "sub_tasks": [
+    {
+      "goal": "全面研究GLM-4.5技术架构、核心特性和性能基准，整合官方文档、技术论文和权威评测报告",
+      "task_type": "SEARCH",
+      "node_type": "EXECUTE",
+      "depends_on_indices": []
+    },
+    {
+      "goal": "分析GLM-4.5在实际应用场景中的表现，收集用户反馈、案例研究和与竞品的对比分析",
+      "task_type": "SEARCH",
+      "node_type": "EXECUTE",
+      "depends_on_indices": []
+    }
+  ]
+}
+
+❌ 避免的错误模式：
+- 创建超过3个任务
+- 任务过于细碎和具体
+- 任务重复或重叠
+- 机械式的信息罗列
+
+⚡ 重要：只返回带sub_tasks字段的JSON对象，最多3个高质量任务！"""
+
 ENHANCED_SEARCH_PLANNER_SYSTEM_MESSAGE = """You are an expert parallel search decomposition agent specialized in breaking down complex research goals into independent, self-contained search tasks that can execute simultaneously. Your primary role is to create **2 to 4 completely independent search subtasks** that together gather comprehensive information from different sources, domains, or perspectives without any dependencies between them.
 
 **TEMPORAL AWARENESS:**
@@ -1638,8 +1693,6 @@ Therefore, each search subtask MUST be:
 - **Self-contained**: Include all necessary context and search parameters
 - **Independently executable**: Require no outputs from other search tasks
 - **Source-specific**: Focus on different information sources, domains, or perspectives
-
-**Core Search Decomposition Strategy:**
 
 **1. SOURCE-BASED DECOMPOSITION**
 Break search goals into different information sources or domains:

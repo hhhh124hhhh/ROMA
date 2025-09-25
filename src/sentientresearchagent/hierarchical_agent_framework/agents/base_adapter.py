@@ -467,6 +467,8 @@ Ensure your output is a valid JSON conforming to the PlanOutput schema, containi
             has_arun = hasattr(self.agno_agent, 'arun')
             has_aresponse = hasattr(self.agno_agent, 'aresponse')
             
+            logger.info(f"🔍 AGENT METHOD CHECK: {self.agent_name} - has_arun={has_arun}, has_aresponse={has_aresponse}")
+            
             if not has_arun and not has_aresponse:
                 raise AgentExecutionError(
                     agent_name=self.agent_name,
@@ -480,15 +482,22 @@ Ensure your output is a valid JSON conforming to the PlanOutput schema, containi
                 llm_start_time = asyncio.get_event_loop().time()
                 logger.info(f"🚀 LLM CALL START: {self.agent_name} for node {node.task_id}")
                 
-                # Use arun if available, otherwise use aresponse
+                # 智谱AI GLM模型需要特殊处理：直接使用agent.arun而不是model.aresponse
+                # 因为Agent.arun方法已经正确处理了消息格式和system_message
                 if has_arun:
+                    logger.info(f"📨 Using AGENT.ARUN for {self.agent_name} with message: {user_message_string[:200]}...")
                     run_response_obj = await self.agno_agent.arun(user_message_string)
                 else:
-                    # For aresponse, we need to pass messages in the correct format
+                    # 对于没有arun的模型，构建正确的消息格式
+                    # 注意：不要使用复杂的包装器，直接传递字典格式的消息
                     messages = []
                     if system_prompt:
                         messages.append({"role": "system", "content": system_prompt})
                     messages.append({"role": "user", "content": user_message_string})
+                    
+                    logger.info(f"📨 Using MODEL.ARESPONSE for {self.agent_name} with {len(messages)} messages")
+                    for i, msg in enumerate(messages):
+                        logger.info(f"  Message {i}: role='{msg['role']}', content_length={len(msg['content'])}")
                     
                     run_response_obj = await self.agno_agent.aresponse(messages=messages)
                 
