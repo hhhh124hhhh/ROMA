@@ -11,6 +11,7 @@ from .executor_prompts import *
 from .aggregator_prompts import *
 from .atomizer_prompts import *
 from .plan_modifier_prompts import *
+from .pain_point_prompts import *
 
 __all__ = [
     # Planner prompts
@@ -37,4 +38,14 @@ __all__ = [
     
     # Plan modifier prompts
     'PLAN_MODIFIER_SYSTEM_PROMPT',
+    
+    # Pain point collection prompts
+    'DISCOVERY_EXPERT_SYSTEM_MESSAGE',
+    'ANALYSIS_EXPERT_SYSTEM_MESSAGE', 
+    'REPORT_EXPERT_SYSTEM_MESSAGE',
+    'COMPETITOR_EXPERT_SYSTEM_MESSAGE',
+    'PRIORITY_EXPERT_SYSTEM_MESSAGE',
+    'SOLUTION_EXPERT_SYSTEM_MESSAGE',
+    'MASTER_PLANNER_SYSTEM_MESSAGE',
+    'MASTER_AGGREGATOR_SYSTEM_MESSAGE',
 ] 

@@ -1,0 +1,338 @@
+# AI产品痛点收集智能体套件
+# 专门用于系统性收集、分析AI产品痛点的多步骤智能体配置
+
+agents:
+  # =============================================================================
+  # 痛点发现专家 - 多渠道信息收集
+  # =============================================================================
+  
+  - name: "PainPointDiscoveryExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "痛点发现专家，专门负责从多个渠道收集和识别AI产品用户痛点"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.4  # 平衡创新性和准确性
+      max_tokens: 4000
+      top_p: 0.9
+    prompt_source: "prompts.pain_point_prompts.DISCOVERY_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "WikipediaTools"
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "SEARCH"
+          priority: 1
+      named_keys: ["PainPointDiscoveryExpert", "discovery_expert", "pain_discovery"]
+    enabled: true
+
+  # =============================================================================
+  # 痛点分析专家 - 深度分析和分类
+  # =============================================================================
+  
+  - name: "PainPointAnalysisExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "痛点分析专家，专门负责对收集到的痛点进行深度分析、分类和评估"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.3  # 低温度确保分析的逻辑性
+      max_tokens: 5000
+      top_p: 0.85
+    prompt_source: "prompts.pain_point_prompts.ANALYSIS_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 1
+      named_keys: ["PainPointAnalysisExpert", "analysis_expert", "pain_analysis"]
+    enabled: true
+
+  # =============================================================================
+  # 痛点报告专家 - 专业报告生成
+  # =============================================================================
+  
+  - name: "PainPointReportExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "痛点报告专家，专门负责生成专业的痛点分析报告和改进建议"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.6  # 适中温度平衡专业性和可读性
+      max_tokens: 6000
+      top_p: 0.9
+    prompt_source: "prompts.pain_point_prompts.REPORT_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "WRITE"
+          priority: 1
+      named_keys: ["PainPointReportExpert", "report_expert", "pain_report"]
+    enabled: true
+
+  # =============================================================================
+  # 竞品痛点研究专家 - 竞品分析
+  # =============================================================================
+  
+  - name: "CompetitorPainPointExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "竞品痛点研究专家，专门分析竞品用户痛点，为产品优化提供对比视角"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.5
+      max_tokens: 4500
+      top_p: 0.9
+    prompt_source: "prompts.pain_point_prompts.COMPETITOR_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "WikipediaTools"
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "SEARCH"
+          priority: 2
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 2
+      named_keys: ["CompetitorPainPointExpert", "competitor_expert", "comp_analysis"]
+    enabled: true
+
+  # =============================================================================
+  # 痛点优先级专家 - 优先级排序和决策支持
+  # =============================================================================
+  
+  - name: "PainPointPriorityExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "痛点优先级专家，基于业务影响和资源约束进行痛点优先级排序"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.3  # 低温度确保决策的客观性
+      max_tokens: 4000
+      top_p: 0.8
+    prompt_source: "prompts.pain_point_prompts.PRIORITY_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 2
+      named_keys: ["PainPointPriorityExpert", "priority_expert", "pain_priority"]
+    enabled: true
+
+  # =============================================================================
+  # 解决方案专家 - 改进建议生成
+  # =============================================================================
+  
+  - name: "PainPointSolutionExpert"
+    type: "executor"
+    adapter_class: "ExecutorAdapter"
+    description: "解决方案专家，针对识别的痛点生成可行的改进方案和实施建议"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.7  # 较高温度促进创新性思考
+      max_tokens: 5000
+      top_p: 0.95
+    prompt_source: "prompts.pain_point_prompts.SOLUTION_EXPERT_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "execute"
+          task_type: "THINK"
+          priority: 1
+        - action_verb: "execute"
+          task_type: "WRITE"
+          priority: 2
+      named_keys: ["PainPointSolutionExpert", "solution_expert", "pain_solution"]
+    enabled: true
+
+  # =============================================================================
+  # 痛点收集总规划器 - 整体任务规划
+  # =============================================================================
+  
+  - name: "PainPointMasterPlanner"
+    type: "planner"
+    adapter_class: "PlannerAdapter"
+    description: "痛点收集总规划器，负责制定系统性的痛点收集和分析工作流程"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.4
+      max_tokens: 6000
+      top_p: 0.9
+    prompt_source: "prompts.pain_point_prompts.MASTER_PLANNER_SYSTEM_MESSAGE"
+    response_model: "PlanOutput"
+    tools: []
+    registration:
+      action_keys:
+        - action_verb: "plan"
+          task_type: "SEARCH"
+        - action_verb: "plan"
+          task_type: "THINK"
+        - action_verb: "plan"
+          task_type: "WRITE"
+      named_keys: ["PainPointMasterPlanner", "pain_planner", "master_pain_planner"]
+    enabled: true
+
+  # =============================================================================
+  # 痛点收集聚合器 - 结果整合
+  # =============================================================================
+  
+  - name: "PainPointMasterAggregator"
+    type: "aggregator"
+    adapter_class: "AggregatorAdapter"
+    description: "痛点收集聚合器，整合所有痛点收集和分析结果，生成综合性报告"
+    model:
+      provider: "openai"
+      model_id: "glm-4.5"
+      api_base: "https://open.bigmodel.cn/api/paas/v4/"
+      temperature: 0.5
+      max_tokens: 8000  # 支持长篇综合报告
+      top_p: 0.9
+    prompt_source: "prompts.pain_point_prompts.MASTER_AGGREGATOR_SYSTEM_MESSAGE"
+    response_model: null
+    tools:
+      - name: "PythonTools"
+        params:
+          save_and_run: true
+      - "ReasoningTools"
+    registration:
+      action_keys:
+        - action_verb: "aggregate"
+          task_type: "SEARCH"
+        - action_verb: "aggregate"
+          task_type: "THINK"
+        - action_verb: "aggregate"
+          task_type: "WRITE"
+      named_keys: ["PainPointMasterAggregator", "pain_aggregator", "master_pain_aggregator"]
+    enabled: true
+
+# =============================================================================
+# 元数据信息
+# =============================================================================
+
+metadata:
+  name: "AI产品痛点收集智能体套件"
+  description: "专业的AI产品痛点收集、分析和解决方案生成智能体套件"
+  version: "1.0.0"
+  author: "AI Product Team"
+  created_date: "2025-01-16"
+  
+  model_info:
+    primary_model: "glm-4.5"
+    provider: "zhipuai"
+    api_base: "https://open.bigmodel.cn/api/paas/v4/"
+    api_version: "v4"
+    language_focus: "Chinese"
+  
+  # 环境变量要求
+  required_env_vars:
+    - "ZHIPUAI_API_KEY"  # 智谱AI密钥
+    - "E2B_API_KEY"      # E2B沙箱密钥（用于数据分析）
+  
+  # 支持的任务类型
+  supported_task_types:
+    - "SEARCH"          # 痛点信息搜索和收集
+    - "THINK"           # 痛点分析和优先级排序
+    - "WRITE"           # 报告生成和建议输出
+  
+  # 工作流阶段
+  workflow_stages:
+    discovery:
+      description: "痛点发现阶段"
+      agents: ["PainPointDiscoveryExpert", "CompetitorPainPointExpert"]
+      output: "原始痛点数据集"
+    
+    analysis:
+      description: "痛点分析阶段"
+      agents: ["PainPointAnalysisExpert", "PainPointPriorityExpert"]
+      output: "结构化痛点分析"
+    
+    solution:
+      description: "解决方案生成阶段"
+      agents: ["PainPointSolutionExpert"]
+      output: "改进方案和实施计划"
+    
+    reporting:
+      description: "报告生成阶段"
+      agents: ["PainPointReportExpert"]
+      output: "综合性痛点分析报告"
+  
+  # 输出标准
+  output_standards:
+    completeness:
+      - "覆盖多个信息源"
+      - "包含定量和定性分析"
+      - "提供可操作的建议"
+    
+    accuracy:
+      - "数据来源可追溯"
+      - "分析逻辑清晰"
+      - "结论客观可信"
+    
+    usability:
+      - "结构化易读格式"
+      - "优先级明确标注"
+      - "实施难度评估"
+  
+  # 使用建议
+  usage_guidelines:
+    input_preparation:
+      - "明确产品范围和目标用户"
+      - "提供现有反馈渠道信息"
+      - "设定分析时间范围"
+    
+    execution_tips:
+      - "建议分阶段执行，每个阶段验证结果"
+      - "定期更新竞品信息"
+      - "结合内部数据进行验证"
+    
+    result_interpretation:
+      - "重点关注高频高影响痛点"
+      - "结合业务优先级进行决策"
+      - "建立持续监控机制"

@@ -1,0 +1,190 @@
+# AI产品痛点收集智能体配置
+# 专门设计用于系统性收集、分析和整理AI产品用户痛点的多步骤智能体
+
+profile:
+  name: "AIProductPainPointCollector"
+  description: "专业的AI产品痛点收集与分析智能体，支持多维度、多层次的痛点发现和分析工作流"
+
+  # 根级规划器 - 使用GLM-4.5主规划器进行痛点收集任务分解
+  root_planner_adapter_name: "GLM45MasterPlanner"
+  
+  # 根级聚合器 - 整合所有痛点收集结果
+  root_aggregator_adapter_name: "GLM45MasterAggregator"
+
+  # 任务类型到规划器的映射 - 针对痛点收集的多步骤工作流
+  planner_adapter_names:
+    SEARCH: "GLM45MasterPlanner"       # 痛点信息搜索和收集规划
+    THINK: "GLM45MasterPlanner"        # 痛点分析和分类规划  
+    WRITE: "GLM45MasterPlanner"        # 痛点报告和建议规划
+
+  # 任务类型到执行器的映射 - 针对不同类型的痛点收集任务
+  executor_adapter_names:
+    SEARCH: "GLM45SmartExecutor"       # 多渠道痛点信息搜索
+    THINK: "GLM45SmartExecutor"        # 痛点深度分析和洞察
+    WRITE: "GLM45ProWriter"            # 痛点报告和改进建议生成
+
+  # 任务类型到聚合器的映射 - 专门化的结果聚合
+  aggregator_adapter_names:
+    SEARCH: "GLM45MasterAggregator"    # 搜索结果聚合和去重
+    THINK: "GLM45MasterAggregator"     # 分析结果聚合和归纳
+    WRITE: "GLM45MasterAggregator"     # 报告内容聚合和优化
+
+  # 其他功能代理
+  atomizer_adapter_name: "GLM45AtomizerMaster"      # 痛点收集任务原子化器
+  aggregator_adapter_name: "GLM45MasterAggregator"  # 备用聚合器
+  plan_modifier_adapter_name: "PlanModifier"        # 计划修正器
+
+  # 默认代理配置
+  default_planner_adapter_name: "GLM45MasterPlanner"
+  default_executor_adapter_name: "GLM45SmartExecutor"
+  default_node_agent_name_prefix: "PainPointCollector"
+
+# 配置元数据
+metadata:
+  version: "1.0.0"
+  description: "AI产品痛点收集专家智能体，使用GLM-4.5模型优化中文语境下的痛点识别和分析"
+  use_case: "AI产品用户痛点系统性收集、分析和改进建议生成"
+  
+  # 模型配置信息
+  model_info:
+    primary_model: "glm-4.5"
+    provider: "zhipuai" 
+    api_base: "https://open.bigmodel.cn/api/paas/v4/"
+    language_optimization: "Chinese"
+    temperature_range: "0.3-0.8"  # 根据任务类型调整
+  
+  # 专业能力范围
+  capabilities:
+    pain_point_discovery:
+      - "用户反馈分析"
+      - "产品评论挖掘"
+      - "社交媒体监听"
+      - "竞品痛点研究"
+      - "用户访谈分析"
+    
+    pain_point_analysis:
+      - "痛点严重程度评估"
+      - "痛点频次统计"
+      - "用户群体分析"
+      - "影响范围评估"
+      - "根因分析"
+    
+    solution_generation:
+      - "改进建议生成"
+      - "优先级排序"
+      - "可行性评估"
+      - "ROI分析"
+      - "实施路径规划"
+  
+  # 多步骤工作流定义
+  workflow_steps:
+    step_1_discovery:
+      name: "痛点发现阶段"
+      tasks:
+        - "多渠道信息收集"
+        - "用户反馈聚合"
+        - "竞品痛点研究"
+      expected_output: "原始痛点信息列表"
+    
+    step_2_classification:
+      name: "痛点分类阶段" 
+      tasks:
+        - "痛点类型分类"
+        - "严重程度评估"
+        - "影响范围分析"
+      expected_output: "结构化痛点分类表"
+    
+    step_3_analysis:
+      name: "深度分析阶段"
+      tasks:
+        - "根因分析"
+        - "用户画像关联"
+        - "业务影响评估"
+      expected_output: "痛点深度分析报告"
+    
+    step_4_prioritization:
+      name: "优先级排序阶段"
+      tasks:
+        - "重要性评分"
+        - "紧急性评估"
+        - "资源需求分析"
+      expected_output: "痛点优先级矩阵"
+    
+    step_5_solution:
+      name: "解决方案阶段"
+      tasks:
+        - "改进方案设计"
+        - "实施可行性评估"
+        - "ROI预估"
+      expected_output: "痛点解决方案报告"
+  
+  # 适用场景
+  recommended_for:
+    - "AI产品用户体验优化"
+    - "产品功能痛点识别"
+    - "竞品分析和对比"
+    - "用户反馈系统性分析"
+    - "产品迭代优先级决策"
+    - "客户成功团队支持"
+    - "产品经理决策支持"
+  
+  # 数据源配置
+  data_sources:
+    user_feedback:
+      - "应用商店评论"
+      - "客服工单系统"
+      - "用户反馈平台"
+      - "产品内反馈功能"
+    
+    social_media:
+      - "微博相关讨论"
+      - "知乎问答"
+      - "技术论坛"
+      - "Reddit/Stack Overflow"
+    
+    competitor_analysis:
+      - "竞品用户评价"
+      - "行业报告"
+      - "技术博客分析"
+      - "专家评测"
+    
+    internal_data:
+      - "用户行为数据"
+      - "产品使用统计"
+      - "支持请求日志"
+      - "A/B测试结果"
+  
+  # 输出格式配置
+  output_formats:
+    pain_point_summary:
+      format: "结构化表格"
+      fields: ["痛点描述", "影响用户数", "严重程度", "发现频次", "相关功能"]
+    
+    analysis_report:
+      format: "详细报告"
+      sections: ["执行摘要", "痛点概览", "深度分析", "改进建议", "实施计划"]
+    
+    priority_matrix:
+      format: "可视化矩阵"
+      dimensions: ["重要性", "紧急性", "实施难度", "预期收益"]
+    
+    action_plan:
+      format: "实施清单"
+      fields: ["优先级", "负责团队", "时间节点", "成功指标", "资源需求"]
+  
+  # 质量控制参数
+  quality_controls:
+    data_validation:
+      - "信息源可信度验证"
+      - "数据一致性检查"
+      - "偏见和噪音过滤"
+    
+    analysis_verification:
+      - "逻辑一致性检查"
+      - "结论可追溯性"
+      - "客观性保证"
+    
+    output_standards:
+      - "中文表达规范"
+      - "专业术语准确性"
+      - "结构化格式要求"
