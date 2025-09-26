@@ -1,0 +1,64 @@
+# AI产品痛点收集智能体Profile
+# 专为AI产品痛点收集、分析和解决方案生成优化的配置档案
+
+profile:
+  name: "AIPainPointCollector"
+  description: "AI产品痛点收集智能体配置，专门用于系统性痛点收集分析"
+
+  # 根级规划器 - 使用痛点收集专用总规划器
+  root_planner_adapter_name: "PainPointMasterPlanner"
+  
+  # 根级聚合器 - 使用痛点收集专用总聚合器
+  root_aggregator_adapter_name: "PainPointMasterAggregator"
+
+  # 任务类型到规划器的映射
+  planner_adapter_names:
+    SEARCH: "PainPointMasterPlanner"    # 痛点信息搜索规划
+    THINK: "PainPointMasterPlanner"     # 痛点分析思考规划  
+    WRITE: "PainPointMasterPlanner"     # 痛点报告写作规划
+
+  # 任务类型到执行器的映射 - 使用专业的痛点收集执行器
+  executor_adapter_names:
+    SEARCH: "PainPointDiscoveryExpert"     # 痛点发现和竞品研究
+    THINK: "PainPointAnalysisExpert"       # 痛点分析和优先级评估
+    WRITE: "PainPointReportExpert"         # 痛点报告和解决方案生成
+
+  # 任务类型到聚合器的映射
+  aggregator_adapter_names:
+    SEARCH: "PainPointMasterAggregator"    # 痛点发现结果聚合
+    THINK: "PainPointMasterAggregator"     # 痛点分析结果聚合
+    WRITE: "PainPointMasterAggregator"     # 痛点报告结果聚合
+
+  # 其他功能代理
+  atomizer_adapter_name: "GLM45AtomizerMaster"       # 任务原子化器（复用现有）
+  aggregator_adapter_name: "PainPointMasterAggregator"  # 默认聚合器
+  plan_modifier_adapter_name: "PlanModifier"         # 计划修正器（复用现有）
+
+  # 默认代理配置
+  default_planner_adapter_name: "PainPointMasterPlanner"
+  default_executor_adapter_name: "PainPointAnalysisExpert"
+  default_node_agent_name_prefix: "PainPoint"
+
+metadata:
+  version: "1.0.0"
+  description: "AI产品痛点收集智能体专用配置"
+  use_case: "AI产品痛点收集、分析、优先级排序、解决方案生成"
+  recommended_for:
+    - "AI产品痛点系统性收集"
+    - "用户体验问题分析"
+    - "竞品痛点对比研究"
+    - "痛点优先级排序"
+    - "改进方案设计"
+    - "痛点分析报告生成"
+  
+  # 专业领域
+  domain: "产品管理"
+  target: "AI产品痛点分析"
+  
+  # 支持的工作流阶段
+  workflow_stages:
+    - "痛点发现"
+    - "痛点分析"
+    - "优先级评估"
+    - "解决方案设计"
+    - "报告生成"

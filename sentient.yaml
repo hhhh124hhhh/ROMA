@@ -111,6 +111,6 @@ experiment:
 environment: "research"
 
 # Default Agent Profile
-default_profile: "ai_product_pain_point_collector"
+default_profile: "aipainpointcollector"
 
 # NO AGENT CONFIGURATION HERE - Your agents are already perfectly configured!
