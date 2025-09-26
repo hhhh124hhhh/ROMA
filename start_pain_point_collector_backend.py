@@ -57,6 +57,7 @@ def main():
     os.environ["PYTHONPATH"] = str(project_root / "src")
     # 使用正确的agents配置文件路径
     os.environ["SENTIENT_AGENTS_CONFIG"] = str(project_root / "src/sentientresearchagent/hierarchical_agent_framework/agent_configs/profiles copy/agents_pain_point_collector.yaml")
+    # 使用专门的痛点收集profile
     os.environ["SENTIENT_PROFILE"] = "ai_product_pain_point_collector"
     
     print("\n🎯 痛点收集智能体配置信息:")

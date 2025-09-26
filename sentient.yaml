@@ -111,6 +111,6 @@ experiment:
 environment: "research"
 
 # Default Agent Profile
-default_profile: "glm45_enhanced_multitask"
+default_profile: "ai_product_pain_point_collector"
 
 # NO AGENT CONFIGURATION HERE - Your agents are already perfectly configured!
