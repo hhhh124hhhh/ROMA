@@ -39,7 +39,7 @@ class PlannerAdapter(LlmApiAdapter):
             logger.warning(f"PlannerAdapter: Got string response instead of PlanOutput, attempting JSON extraction")
             
             # Try to extract and parse JSON from the string
-            parsed_result = self._extract_and_parse_json(result, PlanOutput)
+            parsed_result = await self._extract_and_parse_json(result, PlanOutput)
             if parsed_result:
                 logger.info(f"PlannerAdapter: Successfully extracted PlanOutput from string response")
                 return parsed_result
@@ -49,13 +49,13 @@ class PlannerAdapter(LlmApiAdapter):
             logger.error(f"String content: {result[:500]}...")  # Log first 500 chars for debugging
             
             # Return empty plan to prevent crash
-            empty_plan = PlanOutput(sub_goals=[])
+            empty_plan = PlanOutput(sub_tasks=[])
             logger.warning(f"PlannerAdapter: Returning empty plan for node {node.task_id}")
             return empty_plan
         else:
             logger.error(f"PlannerAdapter: Expected PlanOutput, got {type(result)}")
             # Return empty plan instead of raising error
-            empty_plan = PlanOutput(sub_goals=[])
+            empty_plan = PlanOutput(sub_tasks=[])
             logger.warning(f"PlannerAdapter: Returning empty plan for node {node.task_id}")
             return empty_plan
 

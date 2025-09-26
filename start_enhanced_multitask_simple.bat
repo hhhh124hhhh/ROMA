@@ -1,7 +1,7 @@
 echo ========================================
-echo   GLM-4.5 增强多任务全栈启动器
+echo   GLM-4.5 Enhanced Multi-Task Full-Stack Launcher
 echo ========================================
-echo   智谱AI GLM-4.5 增强多任务智能体系统
+echo   ZhipuAI GLM-4.5 Enhanced Multi-Task Agent System
 echo   Enhanced Multitask Execution Mode
 echo ========================================
 echo.
@@ -40,26 +40,26 @@ start "React Frontend Dev Server" cmd /k "title React Frontend Dev Server && ech
 
 echo.
 echo ========================================
-echo   增强多任务服务启动成功！
+echo   Enhanced Multi-Task Services Started Successfully!
 echo ========================================
 echo   Frontend: http://localhost:3000
 echo   Backend: http://localhost:5000
 echo   System Info: http://localhost:5000/api/system-info
 echo.
-echo   支持的任务类型:
-echo   - SEARCH: 信息搜索和收集
-echo   - THINK: 逻辑推理和分析
-echo   - WRITE: 内容创作和报告生成
-echo   - CODE_INTERPRET: 代码执行和解释
+echo   Supported Task Types:
+echo   - SEARCH: Information Search and Collection
+echo   - THINK: Logical Reasoning and Analysis
+echo   - WRITE: Content Creation and Report Generation
+echo   - CODE_INTERPRET: Code Execution and Interpretation
 echo.
-echo   智能功能:
-echo   - 智能任务分解 (根据复杂度自动分解)
-echo   - 并行执行支持 (独立任务同时处理)
-echo   - 依赖关系管理 (智能处理任务间依赖)
-echo   - 结果聚合整合 (自动整合多任务结果)
+echo   Intelligent Features:
+echo   - Smart Task Decomposition (Auto-split by complexity)
+echo   - Parallel Execution Support (Process independent tasks simultaneously)
+echo   - Dependency Management (Smart handling of task dependencies)
+echo   - Result Aggregation (Auto-integrate multi-task results)
 echo.
-echo   前后端服务运行在独立窗口中
-echo   关闭相应窗口即可停止服务
+echo   Frontend and Backend services run in separate windows
+echo   Close respective windows to stop services
 echo ========================================
 echo.
 

@@ -1,0 +1,51 @@
+# GLM-4.5 增强多任务Profile
+# 专为复杂多层级、多类型任务工作流优化的配置档案
+
+profile:
+  name: "GLM45EnhancedMultitask"
+  description: "GLM-4.5增强多任务配置，支持复杂多层级、多类型任务工作流"
+
+  # 根级规划器 - 使用GLM-4.5主规划器进行任务分解
+  root_planner_adapter_name: "GLM45MasterPlanner"
+  
+  # 根级聚合器 - 使用GLM-4.5聚合器进行最终结果整合
+  root_aggregator_adapter_name: "GLM45MasterAggregator"
+
+  # 任务类型到规划器的映射 - 针对不同任务类型使用专门的规划器
+  planner_adapter_names:
+    SEARCH: "GLM45MasterPlanner"       # 搜索任务规划
+    THINK: "GLM45MasterPlanner"        # 思考分析任务规划  
+    WRITE: "GLM45MasterPlanner"        # 写作任务规划
+
+  # 任务类型到执行器的映射 - 针对不同任务类型使用专门的执行器
+  executor_adapter_names:
+    SEARCH: "GLM45SmartExecutor"       # 信息搜索和收集
+    THINK: "GLM45SmartExecutor"        # 逻辑推理和分析
+    WRITE: "GLM45ProWriter"            # 内容创作和报告生成
+
+  # 任务类型到聚合器的映射 - 针对不同任务类型使用专门的聚合器
+  aggregator_adapter_names:
+    SEARCH: "GLM45MasterAggregator"    # 搜索结果聚合
+    THINK: "GLM45MasterAggregator"     # 思考分析结果聚合
+    WRITE: "GLM45MasterAggregator"     # 写作内容聚合
+
+  # 其他功能代理
+  atomizer_adapter_name: "GLM45AtomizerMaster"      # 任务原子化器
+  aggregator_adapter_name: "GLM45MasterAggregator"  # 备用聚合器
+  plan_modifier_adapter_name: "PlanModifier"        # 计划修正器
+
+  # 默认代理配置
+  default_planner_adapter_name: "GLM45MasterPlanner"
+  default_executor_adapter_name: "GLM45SmartExecutor"
+  default_node_agent_name_prefix: "GLM45"
+
+metadata:
+  version: "1.0.0"
+  description: "GLM-4.5增强多任务配置，支持复杂多层级、多类型任务工作流"
+  use_case: "复杂研究项目、多步骤分析、综合报告生成"
+  recommended_for:
+    - "复杂研究项目"
+    - "多步骤逻辑推理"
+    - "综合报告生成"
+    - "代码分析和解释"
+    - "多任务协调执行"
